@@ -1,5 +1,3 @@
-module.exports = {
-  addFilters(config) {
-    // Add filters
-  }
+module.exports = function(config) {
+  // Add filters
 }

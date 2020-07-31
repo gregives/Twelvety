@@ -1,5 +1,3 @@
-module.exports = {
-  addTransforms(config) {
-    // Add transforms
-  }
+module.exports = function(config) {
+  // Add transforms
 }

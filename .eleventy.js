@@ -1,11 +1,15 @@
-const { addFilters } = require('./utils/filters')
-const { addTransforms } = require('./utils/transforms')
-const { addShortcodes } = require('./utils/shortcodes')
+const addFilters = require('./utils/filters')
+const addTransforms = require('./utils/transforms')
+const addShortcodes = require('./utils/shortcodes')
 
 module.exports = function (config) {
   addFilters(config)
   addTransforms(config)
   addShortcodes(config)
+
+  // Deep merge when combining the Data Cascade
+  // Documentation: https://www.11ty.dev/docs/data-deep-merge/
+  config.setDataDeepMerge(true)
 
   return {
     dir: {
