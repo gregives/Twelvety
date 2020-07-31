@@ -1,22 +1,11 @@
-const filters = require('./utils/filters')
-const transforms = require('./utils/transforms')
-const shortcodes = require('./utils/shortcodes')
+const { addFilters } = require('./utils/filters')
+const { addTransforms } = require('./utils/transforms')
+const { addShortcodes } = require('./utils/shortcodes')
 
 module.exports = function (config) {
-  // Add all filters
-  Object.keys(filters).forEach((filterName) => {
-    config.addFilter(filterName, filters[filterName])
-  })
-
-  // Add all transforms
-  Object.keys(transforms).forEach((transformName) => {
-    config.addTransform(transformName, transforms[transformName])
-  })
-
-  // Add all shortcodes
-  Object.keys(shortcodes).forEach((shortcodeName) => {
-    config.addPairedShortcode(shortcodeName, shortcodes[shortcodeName])
-  })
+  addFilters(config)
+  addTransforms(config)
+  addShortcodes(config)
 
   return {
     dir: {

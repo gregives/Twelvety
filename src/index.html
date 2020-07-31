@@ -1,0 +1,13 @@
+<main class="home">
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat commodi aliquam id iusto accusantium veritatis a consequuntur, ullam, assumenda obcaecati, voluptatibus recusandae ipsum incidunt dolorem quaerat impedit. Quibusdam, esse doloribus!</p>
+</main>
+
+{% stylesheet 'scss' %}
+  @import 'mixins';
+
+  .home {
+    @include container;
+
+    color: red;
+  }
+{% endstylesheet %}
