@@ -4,16 +4,17 @@ const postcss = require('postcss')
 const postcssPresetEnv = require('postcss-preset-env')
 const autoprefixer = require('autoprefixer')
 
+// Where you want to put your sass files
+const SASS_DIR = path.resolve(process.cwd(), 'src', '_assets', 'styles')
+
 // Render sass using node-sass
 // Documentation: https://github.com/sass/node-sass
 function renderSass(data) {
   return sass
     .renderSync({
       data,
-      includePaths: [
-        // Allow `@import` from files within src/_assets/styles
-        path.resolve(process.cwd(), 'src', '_assets', 'styles')
-      ],
+      // Allow `@import` from files within sass directory
+      includePaths: [SASS_DIR],
       // Set `indentedSyntax` to true if you want to use indented sass
       indentedSyntax: false
     })
@@ -27,6 +28,7 @@ module.exports = function(config) {
 
   // Store each stylesheet within its chunk
   // The chunk defaults to the URL of the current page
+  // Use language 'scss' for Liquid highlighting
   config.addPairedShortcode('stylesheet', function(content, _language, chunk = this.page.url) {
     // Make sure that the chunk exists
     if (!STYLES.hasOwnProperty(chunk))
@@ -40,10 +42,13 @@ module.exports = function(config) {
   // Render the stylesheets for the given chunk
   config.addShortcode('styles', async function(chunk = this.page.url) {
     // Convert sass to CSS and join all the stylesheets in the chunk
-    const render = STYLES[chunk].map(renderSass).join('\n')
+    const joined = STYLES[chunk].map(renderSass).join('\n')
+
+    // Input path used by PostCSS
+    const from = path.resolve(process.cwd(), this.page.inputPath)
 
     // Use autoprefixer and postcss-preset-env for compatibility
-    const styles = await postcss([postcssPresetEnv, autoprefixer]).process(render)
+    const styles = await postcss([postcssPresetEnv, autoprefixer]).process(joined, { from })
 
     // Return the styles inline
     return `<style>${styles}</style>`
@@ -55,4 +60,7 @@ module.exports = function(config) {
       delete STYLES[chunk]
     }
   })
+
+  // Watch the sass directory
+  config.addWatchTarget(SASS_DIR)
 }

@@ -1,4 +1,4 @@
-const addStylesheetShortcodes = require('./stylesheet')
+const addStylesheetShortcodes = require('./shortcodes/stylesheet')
 
 module.exports = function(config) {
   addStylesheetShortcodes(config)
