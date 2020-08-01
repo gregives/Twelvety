@@ -51,7 +51,7 @@ module.exports = function(config) {
     const styles = await postcss([postcssPresetEnv, autoprefixer]).process(joined, { from })
 
     // Return the styles inline
-    return `<style>${styles}</style>`
+    return `<style>\n${styles}\n</style>`
   })
 
   // Reset all styles on re-runs

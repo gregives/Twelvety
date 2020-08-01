@@ -2,18 +2,18 @@
 <html lang="en">
   <head>
     <!-- Set default meta.title and/or meta.site in src/_data/meta.json -->
-    {% if meta.title or meta.site %}
+    {% if meta.title or meta.site -%}
       <title>{{ meta.title }}{% if meta.title and meta.site %} | {% endif %}{{ meta.site }}</title>
-    {% endif %}
+    {%- endif %}
 
     <!-- Some basic meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Set default meta.description in src/_data/meta.json -->
-    {% if meta.description %}
+    {% if meta.description -%}
       <meta name="description" content="{{ meta.description }}">
-    {% endif %}
+    {%- endif %}
 
     <!-- Page styles -->
     {% styles page.url %}

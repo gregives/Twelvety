@@ -26,7 +26,7 @@ module.exports = function(config) {
     const scripts = babel.transformSync(joined, { presets: [babelPresetEnv] }).code
 
     // Return the scripts inline
-    return `<script>${scripts}</script>`
+    return `<script>\n${scripts}\n</script>`
   })
 
   // Reset all scripts on re-runs
