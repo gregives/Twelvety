@@ -1,5 +1,23 @@
+const browserify = require('browserify')
 const babel = require('@babel/core')
 const babelPresetEnv = require('@babel/preset-env')
+
+// Readable stream for browserify
+const { Readable } = require('stream')
+
+// Bundle scripts with browserify
+// Documentation: https://github.com/browserify/browserify
+function bundleScripts(data) {
+  return new Promise((resolve, reject) => {
+    browserify([Readable.from(data)])
+      .plugin('tinyify')
+      .bundle((error, buffer) => {
+        if (error)
+          reject(error)
+        resolve(buffer)
+      })
+  })
+}
 
 module.exports = function(config) {
   // Each script is stored within an array for its given 'chunk'
@@ -19,12 +37,12 @@ module.exports = function(config) {
 
   // Render the scripts for the given chunk
   config.addShortcode('script', async function(chunk = this.page.url) {
-    // Join all the scripts in the chunk
-    const joined = SCRIPTS[chunk].join('\n')
-
+    // Wrap and join all the scripts in chunk
+    const joined = SCRIPTS[chunk].map((data) => `;(() => {\n${data}\n})()`).join('\n')
+    // Bundle the scripts using browserify
+    const bundled = await bundleScripts(joined)
     // Use Babel with babel-preset-env for compatability
-    const scripts = babel.transformSync(joined, { presets: [babelPresetEnv] }).code
-
+    const scripts = babel.transformSync(bundled, { presets: [babelPresetEnv] }).code
     // Return the scripts inline
     return `<script>\n${scripts}\n</script>`
   })
