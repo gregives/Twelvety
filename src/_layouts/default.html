@@ -21,6 +21,10 @@
   <body>
     {{ content }}
 
+    {% javascript %}
+      require('instant.page')
+    {% endjavascript %}
+
     <!-- Page script -->
     {% script page.url %}
   </body>
