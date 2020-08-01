@@ -2,14 +2,16 @@ const browserify = require('browserify')
 const babel = require('@babel/core')
 const babelPresetEnv = require('@babel/preset-env')
 
-// Readable stream for browserify
+// Readable stream for browserify in-memory
 const { Readable } = require('stream')
 
 // Bundle scripts with browserify
 // Documentation: https://github.com/browserify/browserify
 function bundleScripts(data) {
   return new Promise((resolve, reject) => {
+    // Pass browserify a ReadableStream of the script
     browserify([Readable.from(data)])
+      // Plugin tinyify provides various optimisations
       .plugin('tinyify')
       .bundle((error, buffer) => {
         if (error)
@@ -37,7 +39,7 @@ module.exports = function(config) {
 
   // Render the scripts for the given chunk
   config.addShortcode('script', async function(chunk = this.page.url) {
-    // Wrap and join all the scripts in chunk
+    // Wrap scripts in IIFE and join all the scripts in chunk
     const joined = SCRIPTS[chunk].map((data) => `;(() => {\n${data}\n})()`).join('\n')
     // Bundle the scripts using browserify
     const bundled = await bundleScripts(joined)

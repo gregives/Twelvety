@@ -1,3 +1,4 @@
 # Used by @babel/preset-env, autoprefixer and postcss-preset-env
+# Documentation: https://github.com/browserslist/browserslist
 
 defaults
