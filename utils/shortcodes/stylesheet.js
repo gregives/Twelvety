@@ -13,8 +13,11 @@ function renderStyles(data) {
   return new Promise((resolve, reject) => {
     sass.render({
       data,
-      // Allow `@import` from files within sass directory
-      includePaths: [SASS_DIR],
+      // Allow `@import` from files within sass directory and node modules
+      includePaths: [
+        SASS_DIR,
+        path.join(process.cwd(), 'node_modules', 'normalize.css')
+      ],
       // Set `indentedSyntax` to true if you want to use indented sass
       indentedSyntax: false
     }, (error, { css }) => {
