@@ -12,15 +12,15 @@ function renderStyles(data, options) {
       data,
       // Allow `@import` from files within styles directory and node modules
       includePaths: [
-        options.dir.styles,
+        path.join(process.cwd(), options.dir.input, options.dir.styles),
         path.join(process.cwd(), 'node_modules', 'normalize.css')
       ],
       // Set `indentedSyntax` to true if you want to use indented sass
       indentedSyntax: false
-    }, (error, { css }) => {
+    }, (error, result) => {
       if (error)
         reject(error)
-      resolve(css.toString())
+      resolve(result.css.toString())
     })
   })
 }
