@@ -4,18 +4,15 @@ const postcss = require('postcss')
 const postcssPresetEnv = require('postcss-preset-env')
 const autoprefixer = require('autoprefixer')
 
-// Where you want to put your sass files
-const SASS_DIR = path.resolve(process.cwd(), 'src', '_assets', 'styles')
-
 // Render styles using node-sass
 // Documentation: https://github.com/sass/node-sass
-function renderStyles(data) {
+function renderStyles(data, options) {
   return new Promise((resolve, reject) => {
     sass.render({
       data,
-      // Allow `@import` from files within sass directory and node modules
+      // Allow `@import` from files within styles directory and node modules
       includePaths: [
-        SASS_DIR,
+        options.dir.styles,
         path.join(process.cwd(), 'node_modules', 'normalize.css')
       ],
       // Set `indentedSyntax` to true if you want to use indented sass
@@ -28,7 +25,7 @@ function renderStyles(data) {
   })
 }
 
-module.exports = function(config) {
+module.exports = function(config, options) {
   // Each stylesheet is stored within an array for its given 'chunk'
   const STYLES = {}
 
@@ -47,10 +44,14 @@ module.exports = function(config) {
 
   // Render the styles for the given chunk
   config.addShortcode('styles', async function(chunk = this.page.url) {
+    // If there aren't any styles, just return nothing
+    if (!STYLES.hasOwnProperty(chunk))
+      return ''
+
     // Join all the styles in the chunk
     const joined = STYLES[chunk].join('\n')
     // Render sass using node-sass
-    const rendered = await renderStyles(joined)
+    const rendered = await renderStyles(joined, options)
     // Input path used by PostCSS
     const from = path.resolve(process.cwd(), this.page.inputPath)
     // Use autoprefixer and postcss-preset-env for compatibility
@@ -66,6 +67,6 @@ module.exports = function(config) {
     }
   })
 
-  // Watch the sass directory
-  config.addWatchTarget(SASS_DIR)
+  // Watch the styles directory
+  config.addWatchTarget(options.dir.styles)
 }

@@ -21,7 +21,7 @@ function bundleScripts(data) {
   })
 }
 
-module.exports = function(config) {
+module.exports = function(config, options) {
   // Each script is stored within an array for its given 'chunk'
   const SCRIPTS = {}
 
@@ -39,6 +39,10 @@ module.exports = function(config) {
 
   // Render the scripts for the given chunk
   config.addShortcode('script', async function(chunk = this.page.url) {
+    // If there aren't any scripts, just return nothing
+    if (!SCRIPTS.hasOwnProperty(chunk))
+      return ''
+
     // Wrap scripts in IIFE and join all the scripts in chunk
     const joined = SCRIPTS[chunk].map((data) => `;(() => {\n${data}\n})()`).join('\n')
     // Bundle the scripts using browserify

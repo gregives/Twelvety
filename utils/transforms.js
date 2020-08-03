@@ -1,13 +1,10 @@
 const htmlmin = require('html-minifier')
 const beautify = require('js-beautify').html
 
-// Check Eleventy environment
-const isProd = process.env.ELEVENTY_ENV === 'production'
-
-module.exports = function(config) {
+module.exports = function(config, options) {
   config.addTransform('format', function(content, outputPath) {
     if (outputPath.endsWith('.html')) {
-      if (isProd) {
+      if (options.env === 'production') {
         // Minify HTML in production
         // Options: https://github.com/kangax/html-minifier
         return htmlmin.minify(content, {
