@@ -1,17 +1,31 @@
-const fs = require('fs')
 const path = require('path')
 const sharp = require('sharp')
+const jsonfile = require('jsonfile')
 
 // Asset shortcode for saving hashed assets
-const saveAsset = require('./asset')
+const saveAsset = require('./asset'), { hashContent } = saveAsset
 
 // Sizes for responsive image in intervals of 160 i.e. 160, 320, ..., 1920
 const SIZES = Array.from(new Array(12), (_, index) => (index + 1) * 160)
+// File to save responsive image cache
+const CACHE_FILE = path.join(process.cwd(), '.twelvety.cache')
+// Quality of outputted images
+const QUALITY = 75
 
+// Load cache from file or create new cache
+function loadCache() {
+  try {
+    return jsonfile.readFileSync(CACHE_FILE)
+  } catch {
+    return {}
+  }
+}
+
+// Save image as the given format
 async function saveImageFormat(options, image, format) {
   // Format image and reduce quality
   const formatted = image.clone().toFormat(format)[format]({
-    quality: 75
+    quality: QUALITY
   })
 
   // Save buffer of formatted image
@@ -38,6 +52,15 @@ module.exports = async function(options, src, alt, sizes = '90vw', loading = 'la
 
   // Original image in sharp
   const original = sharp(imagePath)
+
+  // Hash the original image
+  const imageHash = hashContent(await original.toBuffer())
+
+  // If image is in cache, return cache
+  const cache = loadCache()
+  if (cache.hasOwnProperty(imageHash)) {
+    return cache[imageHash]
+  }
 
   // Get metadata from original image
   const { format, height, width } = await original.metadata()
@@ -68,11 +91,18 @@ module.exports = async function(options, src, alt, sizes = '90vw', loading = 'la
   // Aspect ratio for padding-bottom
   const ratio = (height / width * 100).toFixed(3)
 
-  return `
+  // Responsive picture with srcset and native lazy loading
+  const picture = `
     <picture style="background-color:${color};padding-bottom:${ratio}%">
       <source srcset="${webpFormat.join(',')}" sizes="${sizes}" type="image/webp">
       <source srcset="${sameFormat.join(',')}" sizes="${sizes}" type="image/${format}">
       <img src="${fallback}" alt="${alt}" loading="${loading}">
     </picture>
   `
+
+  // Add picture to cache
+  cache[imageHash] = picture
+  jsonfile.writeFileSync(CACHE_FILE, cache)
+
+  return picture
 }

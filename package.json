@@ -3,13 +3,10 @@
   "version": "0.0.1",
   "description": "A pre-configured, super-fast Eleventy starter project",
   "scripts": {
-    "clean": "rimraf dist",
-    "build:eleventy": "cross-env ELEVENTY_ENV=production eleventy",
-    "build": "run-s clean build:*",
-    "watch:eleventy": "cross-env ELEVENTY_ENV=development eleventy --watch",
-    "watch": "run-s clean watch:*",
-    "serve:eleventy": "cross-env ELEVENTY_ENV=development eleventy --serve",
-    "serve": "run-s clean serve:*"
+    "clean": "rimraf dist .twelvety.cache",
+    "build": "cross-env ELEVENTY_ENV=production eleventy",
+    "watch": "cross-env ELEVENTY_ENV=development eleventy --watch",
+    "serve": "cross-env ELEVENTY_ENV=development eleventy --serve"
   },
   "repository": "https://github.com/gregives/twelvety",
   "keywords": [
