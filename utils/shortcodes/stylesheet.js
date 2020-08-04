@@ -68,5 +68,5 @@ module.exports = function(config, options) {
   })
 
   // Watch the styles directory
-  config.addWatchTarget(options.dir.styles)
+  config.addWatchTarget(path.join(process.cwd(), options.dir.input, options.dir.styles))
 }
