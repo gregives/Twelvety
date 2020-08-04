@@ -5,3 +5,17 @@
 html {
   font-family: system-ui;
 }
+
+img {
+  display: block;
+  width: 100%;
+}
+
+picture {
+  display: block;
+  position: relative;
+
+  > img {
+    position: absolute;
+  }
+}

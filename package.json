@@ -35,6 +35,7 @@
     "postcss": "^7.0.32",
     "postcss-preset-env": "^6.7.0",
     "rimraf": "^3.0.2",
+    "sharp": "^0.25.4",
     "tinyify": "^3.0.0"
   }
 }
