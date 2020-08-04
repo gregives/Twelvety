@@ -5,8 +5,8 @@ const sharp = require('sharp')
 // Asset shortcode for saving hashed assets
 const saveAsset = require('./asset')
 
-// Sizes for responsive image
-const SIZES = [320, 640, 1280, 1920]
+// Sizes for responsive image in intervals of 160 i.e. 160, 320, ..., 1920
+const SIZES = Array.from(new Array(12), (_, index) => (index + 1) * 160)
 
 async function saveImageFormat(options, image, format) {
   // Format image and reduce quality
@@ -29,7 +29,7 @@ async function getAverageColor(image) {
   return `${values.length < 4 ? 'rgb' : 'rgba'}(${values.join(',')})`
 }
 
-module.exports = async function(options, src, alt, sizes = '100vw', loading = 'lazy') {
+module.exports = async function(options, src, alt, sizes = '90vw', loading = 'lazy') {
   if (alt === undefined)
     throw new Error('Images should always have an alt tag')
 
