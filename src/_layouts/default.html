@@ -15,8 +15,26 @@
       <meta name="description" content="{{ meta.description }}">
     {%- endif %}
 
-    <!-- Page styles -->
-    {% styles page.url %}
+    <!-- Capture page styles -->
+    {%- capture css -%}
+      {% styles page.url %}
+    {%- endcapture -%}
+    <!-- Capture href of asset -->
+    {%- capture href -%}
+      {% asset css 'css' %}
+    {%- endcapture -%}
+
+    {% if env == 'production' -%}
+      <!-- Defer non-critical CSS https://web.dev/defer-non-critical-css -->
+      <link rel="preload" href="{{ href }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+      <noscript>
+        <link rel="stylesheet" href="{{ href }}">
+      </noscript>
+      <!-- In production, critical CSS will be inserted below -->
+    {%- else -%}
+      <!-- In development, just include render-blocking stylesheet -->
+      <link rel="stylesheet" href="{{ href }}">
+    {%- endif %}
   </head>
   <body>
     {{ content }}
@@ -25,7 +43,12 @@
       require('instant.page')
     {% endjavascript %}
 
-    <!-- Page script -->
-    {% script page.url %}
+    <!-- Capture page script -->
+    {%- capture js -%}
+      {% script page.url %}
+    {%- endcapture -%}
+
+    <!-- Defer page script -->
+    <script src="{% asset js 'js' %}" defer></script>
   </body>
 </html>

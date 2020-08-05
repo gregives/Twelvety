@@ -48,9 +48,7 @@ module.exports = function(config, options) {
     // Bundle the scripts using browserify
     const bundled = await bundleScripts(joined)
     // Use Babel with babel-preset-env for compatability
-    const scripts = babel.transformSync(bundled, { presets: [babelPresetEnv] }).code
-    // Return the scripts inline
-    return `<script>\n${scripts}\n</script>`
+    return babel.transformSync(bundled, { presets: [babelPresetEnv] }).code
   })
 
   // Reset all scripts on re-runs

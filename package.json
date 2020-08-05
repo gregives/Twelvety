@@ -23,6 +23,7 @@
     "autoprefixer": "^9.8.6",
     "browserify": "^16.5.1",
     "clean-css": "^4.2.3",
+    "critical": "^2.0.1",
     "cross-env": "^7.0.2",
     "html-minifier": "^4.0.0",
     "instant.page": "^5.1.0",

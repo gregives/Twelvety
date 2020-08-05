@@ -55,9 +55,7 @@ module.exports = function(config, options) {
     // Input path used by PostCSS
     const from = path.resolve(process.cwd(), this.page.inputPath)
     // Use autoprefixer and postcss-preset-env for compatibility
-    const styles = await postcss([postcssPresetEnv, autoprefixer]).process(rendered, { from })
-    // Return the styles inline
-    return `<style>\n${styles}\n</style>`
+    return await postcss([postcssPresetEnv, autoprefixer]).process(rendered, { from })
   })
 
   // Reset all styles on re-runs
