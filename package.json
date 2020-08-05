@@ -22,6 +22,7 @@
     "@babel/preset-env": "^7.11.0",
     "autoprefixer": "^9.8.6",
     "browserify": "^16.5.1",
+    "clean-css": "^4.2.3",
     "cross-env": "^7.0.2",
     "html-minifier": "^4.0.0",
     "instant.page": "^5.1.0",
@@ -33,6 +34,7 @@
     "postcss-preset-env": "^6.7.0",
     "rimraf": "^3.0.2",
     "sharp": "^0.25.4",
-    "tinyify": "^3.0.0"
+    "tinyify": "^3.0.0",
+    "uglify-js": "^3.10.1"
   }
 }

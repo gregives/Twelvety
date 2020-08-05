@@ -2,6 +2,9 @@ const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
 
+// Minify functions
+const minify = require('../minify')
+
 // Size of asset hash
 const SIZE = 8
 
@@ -15,6 +18,11 @@ function hashContent(content) {
 }
 
 module.exports = function(options, content, extension) {
+  // Minify content if applicable
+  if (['css', 'js', 'html'].includes(extension))
+    content = minify[extension](options, content)
+
+  // Hash content
   const hash = hashContent(content)
 
   // Output assets directory

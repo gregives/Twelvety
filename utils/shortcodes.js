@@ -13,5 +13,5 @@ module.exports = function(config, options) {
   // Bind options to the first argument of picture shortcode function
   config.addShortcode('picture', pictureShortcode.bind(null, options))
 
-  // Add shortcodes
+  // Add shortcodes here
 }
