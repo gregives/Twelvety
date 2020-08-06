@@ -1,3 +1,3 @@
-module.exports = function(config, options) {
+module.exports = function(config) {
   // Add filters here
 }

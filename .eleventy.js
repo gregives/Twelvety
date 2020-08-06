@@ -1,34 +1,27 @@
+const path = require('path')
+const alias = require('module-alias')
+
+// Set up alias for Twelvety options
+alias.addAlias('@12ty', path.join(__dirname, '.twelvety'))
+
+// You can now require Twelvety options like so
+const twelvety = require('@12ty')
+
+// Filters, transforms and shortcodes live in utils
 const addFilters = require('./utils/filters')
 const addTransforms = require('./utils/transforms')
 const addShortcodes = require('./utils/shortcodes')
 
-const options = {
-  // Directory structure
-  dir: {
-    input: 'src',
-    output: 'dist',
-    includes: '_includes',
-    layouts: '_layouts',
-    data: '_data',
-    // ⬇ Not used by Eleventy, just Twelvety!
-    assets: '_assets',
-    styles: '_assets/styles',
-    images: '_assets/images'
-  },
-  // Eleventy environment
-  env: process.env.ELEVENTY_ENV
-}
-
 module.exports = function (config) {
-  addFilters(config, options)
-  addTransforms(config, options)
-  addShortcodes(config, options)
+  addFilters(config)
+  addTransforms(config)
+  addShortcodes(config)
 
   // Deep merge when combining the Data Cascade
   // Documentation: https://www.11ty.dev/docs/data-deep-merge/
   config.setDataDeepMerge(true)
 
   return {
-    dir: options.dir
+    dir: twelvety.dir
   }
 }

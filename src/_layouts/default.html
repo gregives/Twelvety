@@ -24,7 +24,7 @@
       {% asset css 'css' %}
     {%- endcapture -%}
 
-    {% if env == 'production' -%}
+    {% if twelvety.env == 'production' -%}
       <!-- Defer non-critical CSS https://web.dev/defer-non-critical-css -->
       <link rel="preload" href="{{ href }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
       <noscript>

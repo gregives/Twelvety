@@ -7,8 +7,10 @@ const saveAsset = require('./asset'), { hashContent } = saveAsset
 
 // Sizes for responsive image in intervals of 160 i.e. 160, 320, ..., 1920
 const SIZES = Array.from(new Array(12), (_, index) => (index + 1) * 160)
+
 // File to save responsive image cache
 const CACHE_FILE = path.join(process.cwd(), '.twelvety.cache')
+
 // Quality of outputted images
 const QUALITY = 75
 
@@ -22,7 +24,7 @@ function loadCache() {
 }
 
 // Save image as the given format
-async function saveImageFormat(options, image, format) {
+async function saveImageFormat(image, format) {
   // Format image and reduce quality
   const formatted = image.clone().toFormat(format)[format]({
     quality: QUALITY
@@ -30,7 +32,7 @@ async function saveImageFormat(options, image, format) {
 
   // Save buffer of formatted image
   const buffer = await formatted.toBuffer()
-  return saveAsset(options, buffer, format)
+  return saveAsset(buffer, format)
 }
 
 // Get the average color from an image
@@ -43,7 +45,7 @@ async function getAverageColor(image) {
   return `${values.length < 4 ? 'rgb' : 'rgba'}(${values.join(',')})`
 }
 
-module.exports = async function(options, src, alt, sizes = '90vw', loading = 'lazy') {
+module.exports = async function(src, alt, sizes = '90vw', loading = 'lazy') {
   if (alt === undefined)
     throw new Error('Images should always have an alt tag')
 
@@ -75,13 +77,13 @@ module.exports = async function(options, src, alt, sizes = '90vw', loading = 'la
 
   // Save responsive images in same format
   const sameFormat = await Promise.all(images.map(async (image, index) => {
-    const filename = await saveImageFormat(options, image, format)
+    const filename = await saveImageFormat(image, format)
     return `${filename} ${SIZES[index]}w`
   }))
 
   // Save responsive images in webp format
   const webpFormat = await Promise.all(images.map(async (image, index) => {
-    const filename = await saveImageFormat(options, image, 'webp')
+    const filename = await saveImageFormat(image, 'webp')
     return `${filename} ${SIZES[index]}w`
   }))
 

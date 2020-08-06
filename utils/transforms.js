@@ -1,12 +1,15 @@
 const critical = require('critical')
 const { JSDOM } = require('jsdom')
 
+// Twelvety options
+const twelvety = require('@12ty')
+
 // Require local minify functions
 const minify = require('./minify')
 
-module.exports = function(config, options) {
+module.exports = function(config) {
   config.addTransform('critical', async function(content, outputPath) {
-    if (outputPath.endsWith('.html') && options.env === 'production') {
+    if (outputPath.endsWith('.html') && twelvety.env === 'production') {
       const { css } = await critical.generate({
         base: 'dist/',
         html: content,
@@ -31,7 +34,7 @@ module.exports = function(config, options) {
 
   config.addTransform('format', function(content, outputPath) {
     if (outputPath.endsWith('.html')) {
-      return minify.html(options, content)
+      return minify.html(content)
     }
 
     return content

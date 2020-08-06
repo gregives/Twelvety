@@ -3,6 +3,9 @@ const uglify = require('uglify-js')
 const htmlmin = require('html-minifier')
 const beautify = require('js-beautify')
 
+// Twelvety options
+const twelvety = require('@12ty')
+
 // Use beautify in development
 // Options: https://github.com/beautify-web/js-beautify
 const BEAUTIFY_OPTIONS = {
@@ -12,12 +15,12 @@ const BEAUTIFY_OPTIONS = {
   max_preserve_newlines: 1
 }
 
-function minifyCSS(options, content, type) {
+function minifyCSS(content, type) {
   // Ignore inline and media types
   if (['media', 'inline'].includes(type))
     return content
 
-  if (options.env === 'production') {
+  if (twelvety.env === 'production') {
     // clean-css
     // Options: https://github.com/jakubpawlowicz/clean-css
     return new cleancss({
@@ -28,8 +31,8 @@ function minifyCSS(options, content, type) {
   }
 }
 
-function minifyJS(options, content) {
-  if (options.env === 'production') {
+function minifyJS(content) {
+  if (twelvety.env === 'production') {
     // uglify
     // Options: https://github.com/mishoo/UglifyJS
     return uglify.minify(content).code
@@ -38,8 +41,8 @@ function minifyJS(options, content) {
   }
 }
 
-function minifyHTML(options, content) {
-  if (options.env === 'production') {
+function minifyHTML(content) {
+  if (twelvety.env === 'production') {
     // html-minifier
     // Options: https://github.com/kangax/html-minifier
     return htmlmin.minify(content, {
@@ -47,8 +50,8 @@ function minifyHTML(options, content) {
       collapseInlineTagWhitespace: true,
       collapseWhitespace: true,
       conservativeCollapse: true,
-      minifyCSS: minifyCSS.bind(null, options),
-      minifyJS: minifyJS.bind(null, options),
+      minifyCSS,
+      minifyJS,
       removeComments: true,
       useShortDoctype: true
     })
@@ -58,7 +61,7 @@ function minifyHTML(options, content) {
 }
 
 module.exports = {
-  css: minifyCSS,
-  js: minifyJS,
+  css:  minifyCSS,
+  js:   minifyJS,
   html: minifyHTML
 }

@@ -21,7 +21,7 @@ function bundleScripts(data) {
   })
 }
 
-module.exports = function(config, options) {
+module.exports = function(config) {
   // Each script is stored within an array for its given 'chunk'
   const SCRIPTS = {}
 

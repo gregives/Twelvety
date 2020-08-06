@@ -1,17 +1,14 @@
 const addStylesheetShortcodes = require('./shortcodes/stylesheet')
 const addJavascriptShortcodes = require('./shortcodes/javascript')
-const assetShortcode = require('./shortcodes/asset')
 const pictureShortcode = require('./shortcodes/picture')
+const assetShortcode = require('./shortcodes/asset')
 
-module.exports = function(config, options) {
-  addStylesheetShortcodes(config, options)
-  addJavascriptShortcodes(config, options)
+module.exports = function(config) {
+  addStylesheetShortcodes(config)
+  addJavascriptShortcodes(config)
 
-  // Bind options to the first argument of asset shortcode function
-  config.addShortcode('asset', assetShortcode.bind(null, options))
-
-  // Bind options to the first argument of picture shortcode function
-  config.addShortcode('picture', pictureShortcode.bind(null, options))
+  config.addShortcode('picture', pictureShortcode)
+  config.addShortcode('asset', assetShortcode)
 
   // Add shortcodes here
 }

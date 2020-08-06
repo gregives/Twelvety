@@ -2,6 +2,9 @@ const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
 
+// Twelvety options
+const twelvety = require('@12ty')
+
 // Minify functions
 const minify = require('../minify')
 
@@ -17,16 +20,16 @@ function hashContent(content) {
     .slice(0, SIZE)
 }
 
-module.exports = function(options, content, extension) {
+module.exports = function(content, extension) {
   // Minify content if applicable
   if (['css', 'js', 'html'].includes(extension))
-    content = minify[extension](options, content)
+    content = minify[extension](content)
 
   // Hash content
   const hash = hashContent(content)
 
   // Output assets directory
-  const assetsDir = path.join(process.cwd(), options.dir.output, options.dir.assets)
+  const assetsDir = path.join(process.cwd(), twelvety.dir.output, twelvety.dir.assets)
 
   // Ensure the assets folder exists
   if (!fs.existsSync(assetsDir)) {
@@ -40,7 +43,7 @@ module.exports = function(options, content, extension) {
   fs.writeFileSync(path.join(assetsDir, filename), content)
 
   // Output root path from output directory
-  return path.posix.join('/', options.dir.assets, filename)
+  return path.posix.join('/', twelvety.dir.assets, filename)
 }
 
 module.exports.hashContent = hashContent

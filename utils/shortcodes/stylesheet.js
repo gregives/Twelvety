@@ -4,15 +4,18 @@ const postcss = require('postcss')
 const postcssPresetEnv = require('postcss-preset-env')
 const autoprefixer = require('autoprefixer')
 
+// Twelvety options
+const twelvety = require('@12ty')
+
 // Render styles using node-sass
 // Documentation: https://github.com/sass/node-sass
-function renderStyles(data, options) {
+function renderStyles(data) {
   return new Promise((resolve, reject) => {
     sass.render({
       data,
       // Allow `@import` from files within styles directory and node modules
       includePaths: [
-        path.join(process.cwd(), options.dir.input, options.dir.styles),
+        path.join(process.cwd(), twelvety.dir.input, twelvety.dir.styles),
         path.join(process.cwd(), 'node_modules', 'normalize.css')
       ],
       // Set `indentedSyntax` to true if you want to use indented sass
@@ -25,7 +28,7 @@ function renderStyles(data, options) {
   })
 }
 
-module.exports = function(config, options) {
+module.exports = function(config) {
   // Each stylesheet is stored within an array for its given 'chunk'
   const STYLES = {}
 
@@ -51,7 +54,7 @@ module.exports = function(config, options) {
     // Join all the styles in the chunk
     const joined = STYLES[chunk].join('\n')
     // Render sass using node-sass
-    const rendered = await renderStyles(joined, options)
+    const rendered = await renderStyles(joined)
     // Input path used by PostCSS
     const from = path.resolve(process.cwd(), this.page.inputPath)
     // Use autoprefixer and postcss-preset-env for compatibility
@@ -66,5 +69,5 @@ module.exports = function(config, options) {
   })
 
   // Watch the styles directory
-  config.addWatchTarget(path.join(process.cwd(), options.dir.input, options.dir.styles))
+  config.addWatchTarget(path.join(process.cwd(), twelvety.dir.input, twelvety.dir.styles))
 }
