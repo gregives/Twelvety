@@ -5,7 +5,7 @@ const beautify = require('js-beautify')
 
 // Use beautify in development
 // Options: https://github.com/beautify-web/js-beautify
-BEAUTIFY_OPTIONS = {
+const BEAUTIFY_OPTIONS = {
   extra_liners: [],
   indent_inner_html: true,
   indent_size: 2,
