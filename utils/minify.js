@@ -24,7 +24,12 @@ function minifyCSS(content, type) {
     // clean-css
     // Options: https://github.com/jakubpawlowicz/clean-css
     return new cleancss({
-      specialComments: false
+      level: {
+        1: {
+          specialComments: 0
+        },
+        2: true
+      }
     }).minify(content).styles
   } else {
     return beautify.css(content, BEAUTIFY_OPTIONS)
