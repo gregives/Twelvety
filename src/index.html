@@ -1,7 +1,20 @@
 <main class="home">
-  <h1>Hello, World!</h1>
-  {% picture '/src/_assets/images/image.jpeg', 'Lovely picture' %}
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat commodi aliquam id iusto accusantium veritatis a consequuntur, ullam, assumenda obcaecati, voluptatibus recusandae ipsum incidunt dolorem quaerat impedit. Quibusdam, esse doloribus!</p>
+  <h1 class="home__title">The Fastest Eleventy Starter Project</h1>
+  <article class="home__content">
+    <p>Twelvety is a pre-configured Eleventy starter project built to be fast (you'll find it hard to make it slow). It includes:</p>
+    <ul>
+      <li>Component architecture</li>
+      <li>CSS pipeline using Sass and CleanCSS</li>
+      <li>JS pipeline using Browserify, Babel and Uglify</li>
+      <li>Only includes CSS and JS used in each page</li>
+      <li>Critical CSS and defer of non-critical CSS</li>
+      <li>Minification of HTML, CSS and JS</li>
+      <li>Responsive picture shortcode (automatically applied to Markdown images)</li>
+      <li>Content hash of assets</li>
+    </ul>
+    <p>Made and used by <a href="https://gregives.co.uk" target="_blank" rel="noopener noreferrer">Greg Ives</a></p>
+    {% picture '/src/_assets/images/banner.jpg', 'Time-lapse photograph of a blue and white train' %}
+  </article>
 </main>
 
 {% stylesheet 'scss' %}
@@ -9,9 +22,26 @@
 
   .home {
     @include container;
+
+    margin-bottom: 4rem;
+
+    &__title {
+      margin-bottom: 2rem;
+      margin-top: 2rem;
+    }
+
+    &__content > * + {
+      * {
+        margin-top: 1rem;
+      }
+
+      picture {
+        margin-top: 2rem;
+      }
+    }
   }
 {% endstylesheet %}
 
 {% javascript %}
-  console.log('Hello, World!')
+  console.log('Super fast 💨')
 {% endjavascript %}

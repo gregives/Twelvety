@@ -4,6 +4,7 @@
 
 html {
   font-family: system-ui;
+  line-height: 1.5;
 }
 
 img {
@@ -18,6 +19,10 @@ picture {
   > img {
     position: absolute;
   }
+}
+
+ul {
+  padding-left: 2rem;
 }
 
 a {
