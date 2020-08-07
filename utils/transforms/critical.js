@@ -7,7 +7,7 @@ const twelvety = require('@12ty')
 module.exports = async function(content, outputPath) {
   if (outputPath.endsWith('.html') && twelvety.env === 'production') {
     const { css } = await critical.generate({
-      base: 'dist/',
+      base: twelvety.dir.output,
       html: content,
       minify: false,
       width: 2560,
