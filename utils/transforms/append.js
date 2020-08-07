@@ -7,7 +7,7 @@ module.exports = async function(content, outputPath) {
 
     // Get all elements to append
     const elements = [...document.querySelectorAll('[data-append]')]
-    
+
     // Append each element to the given selector
     elements.forEach((element) => {
       const selector = element.dataset.append

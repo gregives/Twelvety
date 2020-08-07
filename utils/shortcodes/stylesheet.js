@@ -43,7 +43,7 @@ module.exports = function(config) {
     // Add the stylesheet to the chunk, if it's not already in it
     if (!STYLES[chunk].includes(content))
       STYLES[chunk].push(content)
-    
+
     return ''
   })
 
