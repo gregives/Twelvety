@@ -10,5 +10,10 @@ module.exports = function(config) {
   config.addShortcode('picture', pictureShortcode)
   config.addShortcode('asset', assetShortcode)
 
+  // Helper for the append transform
+  config.addPairedShortcode('append', function(content, selector) {
+    return `<template data-append="${selector}">\n${content}\n</template>`
+  })
+
   // Add shortcodes here
 }

@@ -14,29 +14,10 @@
     {% if meta.description -%}
       <meta name="description" content="{{ meta.description }}">
     {%- endif %}
-
-    <!-- Capture page styles -->
-    {%- capture css -%}
-      {% styles page.url %}
-    {%- endcapture -%}
-    <!-- Capture href of asset -->
-    {%- capture href -%}
-      {% asset css 'css' %}
-    {%- endcapture -%}
-
-    {% if twelvety.env == 'production' -%}
-      <!-- Defer non-critical CSS https://web.dev/defer-non-critical-css -->
-      <link rel="preload" href="{{ href }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-      <noscript>
-        <link rel="stylesheet" href="{{ href }}">
-      </noscript>
-      <!-- In production, critical CSS will be inserted below -->
-    {%- else -%}
-      <!-- In development, just include render-blocking stylesheet -->
-      <link rel="stylesheet" href="{{ href }}">
-    {%- endif %}
   </head>
   <body>
+    {% include 'header.html' %}
+
     {{ content }}
 
     {% javascript %}
@@ -44,11 +25,34 @@
     {% endjavascript %}
 
     <!-- Capture page script -->
-    {%- capture js -%}
+    {% capture js -%}
       {% script page.url %}
     {%- endcapture -%}
 
     <!-- Defer page script -->
-    <script src="{% asset js 'js' %}" defer></script>
+    <script src="{% asset js, 'js' %}" defer></script>
+
+    {% append 'head' %}
+      <!-- Capture page styles -->
+      {% capture css -%}
+        {% styles page.url %}
+      {%- endcapture -%}
+      <!-- Capture href of asset -->
+      {% capture href -%}
+        {% asset css, 'css' %}
+      {%- endcapture -%}
+  
+      {% if twelvety.env == 'production' -%}
+        <!-- Defer non-critical CSS https://web.dev/defer-non-critical-css -->
+        <link rel="preload" href="{{ href }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <noscript>
+          <link rel="stylesheet" href="{{ href }}">
+        </noscript>
+        <!-- In production, critical CSS will be inserted below -->
+      {%- else -%}
+        <!-- In development, just include render-blocking stylesheet -->
+        <link rel="stylesheet" href="{{ href }}">
+      {%- endif %}
+    {% endappend %}
   </body>
 </html>

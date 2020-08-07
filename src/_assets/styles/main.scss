@@ -19,3 +19,12 @@ picture {
     position: absolute;
   }
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:not([class]) {
+    text-decoration: underline;
+  }
+}

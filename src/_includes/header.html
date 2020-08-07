@@ -1,0 +1,52 @@
+<header class="header">
+  <nav class="header__nav">
+    <a class="header__brand" href="/">🕛 Twelvety</a>
+    <ul class="header__link-list">
+      <li class="header__link-list-item">
+        <a class="header__link" href="/docs">Documentation</a>
+      </li>
+      <li class="header__link-list-item">
+        <a class="header__link" href="/docs">About</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+{% stylesheet 'scss' %}
+  @import 'mixins';
+
+  .header {
+    padding: 2rem 0;
+
+    &__nav {
+      @include container;
+
+      display: flex;
+      flex-direction: row;
+    }
+
+    &__brand {
+      margin: -0.5rem;
+      padding: 0.5rem;
+    }
+
+    &__link-list {
+      display: flex;
+      flex-direction: row;
+      list-style-type: none;
+      margin: 0;
+      margin-left: auto;
+    }
+
+    &__link-list-item {
+      & + & {
+        margin-left: 2rem;
+      }
+    }
+
+    &__link {
+      margin: -0.5rem;
+      padding: 0.5rem;
+    }
+  }
+{% endstylesheet %}
