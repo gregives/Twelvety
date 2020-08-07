@@ -21,6 +21,14 @@ module.exports = function (config) {
   // Documentation: https://www.11ty.dev/docs/data-deep-merge/
   config.setDataDeepMerge(true)
 
+  // Options for LiquidJS
+  // Documentation: https://liquidjs.com/tutorials/options.html
+  config.setLiquidOptions({
+    dynamicPartials: true,
+    strict_filters: true,
+    strict_variables: true
+  })
+
   return {
     dir: twelvety.dir
   }
