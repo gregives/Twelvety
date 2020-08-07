@@ -35,6 +35,8 @@ module.exports = function(config) {
     // Add the script to the chunk, if it's not already in it
     if (!SCRIPTS[chunk].includes(content))
       SCRIPTS[chunk].push(content)
+
+    return ''
   })
 
   // Render the scripts for the given chunk
