@@ -16,7 +16,7 @@ function renderStyles(data) {
       // Allow `@import` from files within styles directory and node modules
       includePaths: [
         path.join(process.cwd(), twelvety.dir.input, twelvety.dir.styles),
-        path.join(process.cwd(), 'node_modules', 'normalize.css')
+        path.join(process.cwd(), 'node_modules')
       ],
       // Set `indentedSyntax` to true if you want to use indented sass
       indentedSyntax: false
