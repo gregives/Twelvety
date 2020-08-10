@@ -2,6 +2,9 @@ const path = require('path')
 const sharp = require('sharp')
 const jsonfile = require('jsonfile')
 
+// Twelvety options
+const twelvety = require('@12ty')
+
 // Asset shortcode for saving hashed assets
 const saveAsset = require('./asset'), { hashContent } = saveAsset
 
@@ -13,6 +16,14 @@ const CACHE_FILE = path.join(process.cwd(), '.twelvety.cache')
 
 // Quality of outputted images
 const QUALITY = 75
+
+// Get image path from src
+function getImagePath(src) {
+  const index = src.indexOf(twelvety.dir.images)
+  const position = index >= 0 ? index + twelvety.dir.images.length : 0
+  const imageFilename = src.substring(position)
+  return path.join(process.cwd(), twelvety.dir.input, twelvety.dir.images, imageFilename)
+}
 
 // Load cache from file or create new cache
 function loadCache() {
@@ -49,8 +60,7 @@ module.exports = async function(src, alt, sizes = '90vw', loading = 'lazy') {
   if (alt === undefined)
     throw new Error('Images should always have an alt tag')
 
-  // TODO: Where should the source path resolve from?
-  const imagePath = path.join(process.cwd(), src)
+  const imagePath = getImagePath(src)
 
   // Original image in sharp
   const original = sharp(imagePath)
