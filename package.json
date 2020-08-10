@@ -25,6 +25,7 @@
     "clean-css": "^4.2.3",
     "critical": "^2.0.1",
     "cross-env": "^7.0.2",
+    "deasync": "^0.1.20",
     "html-minifier": "^4.0.0",
     "instant.page": "^5.1.0",
     "js-beautify": "^1.11.0",

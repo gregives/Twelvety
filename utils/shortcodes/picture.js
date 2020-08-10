@@ -1,5 +1,6 @@
 const path = require('path')
 const sharp = require('sharp')
+const deasync = require('deasync')
 const jsonfile = require('jsonfile')
 
 // Twelvety options
@@ -16,6 +17,22 @@ const CACHE_FILE = path.join(process.cwd(), '.twelvety.cache')
 
 // Quality of outputted images
 const QUALITY = 75
+
+// Function to deasync sharp functions
+// This is required for synchronous markdown-it plugin
+function deasyncSharp(image, sharpFunction) {
+  let result
+
+  // Call function with callback
+  image[sharpFunction].bind(image)((error, data) => {
+    if (error) throw error
+    result = data
+  })
+
+  // Loop while the result is undefined
+  deasync.loopWhile(() => result === undefined)
+  return result
+}
 
 // Get image path from src
 function getImagePath(src) {
@@ -35,28 +52,28 @@ function loadCache() {
 }
 
 // Save image as the given format
-async function saveImageFormat(image, format) {
+function saveImageFormat(image, format) {
   // Format image and reduce quality
   const formatted = image.clone().toFormat(format)[format]({
     quality: QUALITY
   })
 
   // Save buffer of formatted image
-  const buffer = await formatted.toBuffer()
+  const buffer = deasyncSharp(formatted, 'toBuffer')
   return saveAsset(buffer, format)
 }
 
 // Get the average color from an image
-async function getAverageColor(image) {
+function getAverageColor(image) {
   // Resize to one pixel and get raw buffer
-  const buffer = await image.clone().resize(1).raw().toBuffer()
+  const buffer = deasyncSharp(image.clone().resize(1).raw(), 'toBuffer')
   // Convert values to percentages
   const values = [...buffer].map((value) => `${(value * 100 / 255).toFixed(0)}%`)
   // Output rgb or rgba color
   return `${values.length < 4 ? 'rgb' : 'rgba'}(${values.join(',')})`
 }
 
-module.exports = async function(src, alt, sizes = '90vw', loading = 'lazy') {
+module.exports = function(src, alt, sizes = '90vw', loading = 'lazy') {
   if (alt === undefined)
     throw new Error('Images should always have an alt tag')
 
@@ -66,7 +83,7 @@ module.exports = async function(src, alt, sizes = '90vw', loading = 'lazy') {
   const original = sharp(imagePath)
 
   // Hash the original image
-  const imageHash = hashContent(await original.toBuffer())
+  const imageHash = hashContent(deasyncSharp(original, 'toBuffer'))
 
   // If image is in cache, return cache
   const cache = loadCache()
@@ -75,10 +92,10 @@ module.exports = async function(src, alt, sizes = '90vw', loading = 'lazy') {
   }
 
   // Get metadata from original image
-  const { format, height, width } = await original.metadata()
+  const { format, height, width } = deasyncSharp(original, 'metadata')
 
   // Average color used for background while image loads
-  const color = await getAverageColor(original)
+  const color = getAverageColor(original)
 
   // Resize image for responsive-ness
   const images = SIZES.map((width) => {
@@ -86,16 +103,16 @@ module.exports = async function(src, alt, sizes = '90vw', loading = 'lazy') {
   })
 
   // Save responsive images in same format
-  const sameFormat = await Promise.all(images.map(async (image, index) => {
-    const filename = await saveImageFormat(image, format)
+  const sameFormat = images.map((image, index) => {
+    const filename = saveImageFormat(image, format)
     return `${filename} ${SIZES[index]}w`
-  }))
+  })
 
   // Save responsive images in webp format
-  const webpFormat = await Promise.all(images.map(async (image, index) => {
-    const filename = await saveImageFormat(image, 'webp')
+  const webpFormat = images.map((image, index) => {
+    const filename = saveImageFormat(image, 'webp')
     return `${filename} ${SIZES[index]}w`
-  }))
+  })
 
   // Fallback image
   const fallback = sameFormat[sameFormat.length - 1].split(' ')[0]

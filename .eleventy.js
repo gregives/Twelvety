@@ -12,6 +12,9 @@ const addFilters = require('./utils/filters')
 const addTransforms = require('./utils/transforms')
 const addShortcodes = require('./utils/shortcodes')
 
+// Markdown options
+const markdown = require('./utils/markdown')
+
 module.exports = function (config) {
   addFilters(config)
   addTransforms(config)
@@ -28,6 +31,10 @@ module.exports = function (config) {
     strict_filters: true,
     strict_variables: true
   })
+
+  // Set instance of markdown-it so we can add our own plugin
+  // Documentation: https://www.11ty.dev/docs/languages/markdown/#add-your-own-plugins
+  config.setLibrary('md', markdown)
 
   return {
     dir: twelvety.dir
