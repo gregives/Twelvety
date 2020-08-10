@@ -23,6 +23,10 @@
 
     {{ content }}
 
+    {% stylesheet 'scss' %}
+      @import 'main';
+    {% endstylesheet %}
+
     {% javascript %}
       require('instant.page')
     {% endjavascript %}
