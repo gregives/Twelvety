@@ -51,10 +51,10 @@ function loadCache() {
   }
 }
 
-// Save image as the given format
-function saveImageFormat(image, format) {
-  // Format image and reduce quality
-  const formatted = image.clone().toFormat(format)[format]({
+// Save image as the given size and format
+function saveImageFormat(image, width, format) {
+  // Resize image and format with given quality
+  const formatted = image.clone().resize(width)[format]({
     quality: QUALITY
   })
 
@@ -85,11 +85,9 @@ module.exports = function(src, alt, sizes = '90vw', loading = 'lazy') {
   // Hash the original image
   const imageHash = hashContent(deasyncSharp(original, 'toBuffer'))
 
-  // If image is in cache, return cache
+  // Load cache of resized images
   const cache = loadCache()
-  if (cache.hasOwnProperty(imageHash)) {
-    return cache[imageHash]
-  }
+  const cachePicture = cache.hasOwnProperty(imageHash) && cache[imageHash]
 
   // Get metadata from original image
   const { format, height, width } = deasyncSharp(original, 'metadata')
@@ -97,25 +95,32 @@ module.exports = function(src, alt, sizes = '90vw', loading = 'lazy') {
   // Average color used for background while image loads
   const color = getAverageColor(original)
 
-  // Resize image for responsive-ness
-  const images = SIZES.map((width) => {
-    return original.clone().resize(width)
-  })
-
   // Save responsive images in same format
-  const sameFormat = images.map((image, index) => {
-    const filename = saveImageFormat(image, format)
-    return `${filename} ${SIZES[index]}w`
+  const sameFormat = Object.fromEntries(SIZES.map((width) => {
+    if (cachePicture && cachePicture.same.hasOwnProperty(width))
+      return [width, cachePicture.same[width]]
+    return [width, saveImageFormat(original, width, format)]
+  }))
+
+  // Image descriptor with width
+  const sameFormatDesc = Object.keys(sameFormat).map((size) => {
+    return `${sameFormat[size]} ${size}w`
   })
 
   // Save responsive images in webp format
-  const webpFormat = images.map((image, index) => {
-    const filename = saveImageFormat(image, 'webp')
-    return `${filename} ${SIZES[index]}w`
+  const webpFormat = Object.fromEntries(SIZES.map((width) => {
+    if (cachePicture && cachePicture.webp.hasOwnProperty(width))
+      return [width, cachePicture.webp[width]]
+    return [width, saveImageFormat(original, width, 'webp')]
+  }))
+
+  // Image descriptor with width
+  const webpFormatDesc = Object.keys(webpFormat).map((size) => {
+    return `${webpFormat[size]} ${size}w`
   })
 
-  // Fallback image
-  const fallback = sameFormat[sameFormat.length - 1].split(' ')[0]
+  // Use largest same format image as fallback
+  const fallback = sameFormat[SIZES[SIZES.length - 1]]
 
   // Aspect ratio for padding-bottom
   const ratio = (height / width * 100).toFixed(3)
@@ -123,15 +128,20 @@ module.exports = function(src, alt, sizes = '90vw', loading = 'lazy') {
   // Responsive picture with srcset and native lazy loading
   const picture = `
     <picture style="background-color:${color};padding-bottom:${ratio}%">
-      <source srcset="${webpFormat.join(',')}" sizes="${sizes}" type="image/webp">
-      <source srcset="${sameFormat.join(',')}" sizes="${sizes}" type="image/${format}">
+      <source srcset="${webpFormatDesc.join(',')}" sizes="${sizes}" type="image/webp">
+      <source srcset="${sameFormatDesc.join(',')}" sizes="${sizes}" type="image/${format}">
       <img src="${fallback}" alt="${alt}" loading="${loading}">
     </picture>
   `
 
   // Add picture to cache
-  cache[imageHash] = picture
-  jsonfile.writeFileSync(CACHE_FILE, cache)
+  cache[imageHash] = {
+    same: sameFormat,
+    webp: webpFormat
+  }
+
+  // Save cache file
+  jsonfile.writeFileSync(CACHE_FILE, cache, { spaces: 2 })
 
   return picture
 }
