@@ -73,7 +73,7 @@ function getAverageColor(image) {
   return `${values.length < 4 ? 'rgb' : 'rgba'}(${values.join(',')})`
 }
 
-module.exports = function(src, alt, sizes = '90vw', loading = 'lazy') {
+module.exports = function(src, alt, sizes = '90vw, (min-width: 1280px) 1152px', loading = 'lazy') {
   if (alt === undefined)
     throw new Error('Images should always have an alt tag')
 
