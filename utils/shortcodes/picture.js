@@ -3,7 +3,7 @@ const sharp = require('sharp')
 const deasync = require('deasync')
 const jsonfile = require('jsonfile')
 
-// Twelvety options
+// Twelvety options from .twelvety.js
 const twelvety = require('@12ty')
 
 // Asset shortcode for saving hashed assets

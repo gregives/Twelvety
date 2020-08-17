@@ -1,3 +1,12 @@
+<!--
+  This file serves as an example of how you can create reusable components using Twelvety. Use the
+  'stylesheet' paired shortcode for your Sass and the 'javascript' paired shortcode for your
+  JavaScript. You can include components as many times as you want in templates; don't worry, the
+  CSS and JS won't be repeated in the output.
+
+  Feel free to delete this header.html file, it's just an example!
+-->
+
 <header class="header">
   <nav class="header__nav">
     <a class="header__brand" href="/">🕛 Twelvety</a>
@@ -10,6 +19,7 @@
 </header>
 
 {% stylesheet 'scss' %}
+  // Import sass from your styles directory
   @import 'mixins';
 
   .header {

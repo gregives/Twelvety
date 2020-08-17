@@ -12,6 +12,8 @@ module.exports = async function(content, outputPath) {
     elements.forEach((element) => {
       const selector = element.dataset.append
       document.querySelector(selector).appendChild(element)
+
+      // Replace template with its content
       element.replaceWith(...element.content.childNodes)
     })
 

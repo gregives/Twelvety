@@ -1,3 +1,8 @@
+<!--
+  Templates can look very similar to components (like header.html) with the HTML at the top and the
+  corresponding 'stylesheet' and 'javascript' paired shortcodes below.
+-->
+
 <main class="home">
   <h1 class="home__title">The Fastest Eleventy Starter&nbsp;Project</h1>
   <article class="home__content">
@@ -13,11 +18,16 @@
       <li>Content hash of assets</li>
     </ul>
     <p>Made and used by <a href="https://gregives.co.uk" target="_blank" rel="noopener noreferrer">Greg Ives</a></p>
+    <!--
+      Here's an example of the picture shortcode which outputs a responsive picture with WebP support
+      Parameters are src, alt, sizes and loading (lazy or eager)
+    -->
     {% picture 'banner.jpg', 'Time-lapse of a blue and white train moving fast through a station', '90vw', 'eager' %}
   </article>
 </main>
 
 {% stylesheet 'scss' %}
+  // Import sass from your styles directory
   @import 'mixins';
 
   .home {

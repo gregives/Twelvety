@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const crypto = require('crypto')
 
-// Twelvety options
+// Twelvety options from .twelvety.js
 const twelvety = require('@12ty')
 
 // Minify functions

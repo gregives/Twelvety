@@ -1,18 +1,19 @@
 const path = require('path')
 const alias = require('module-alias')
 
+// Twelvety options can be found in .twelvety.js
 // Set up alias for Twelvety options
 alias.addAlias('@12ty', path.join(__dirname, '.twelvety'))
 
-// You can now require Twelvety options like so
+// You can now require Twelvety options using @12ty
 const twelvety = require('@12ty')
 
-// Filters, transforms and shortcodes live in utils
+// Filters, transforms and shortcodes can be found in utils
 const addFilters = require('./utils/filters')
 const addTransforms = require('./utils/transforms')
 const addShortcodes = require('./utils/shortcodes')
 
-// Markdown options
+// Instance of markdown-it
 const markdown = require('./utils/markdown')
 
 module.exports = function (config) {

@@ -3,7 +3,7 @@ const uglify = require('uglify-js')
 const htmlmin = require('html-minifier')
 const beautify = require('js-beautify')
 
-// Twelvety options
+// Twelvety options from .twelvety.js
 const twelvety = require('@12ty')
 
 // Use beautify in development

@@ -1,3 +1,7 @@
+# Helps to maintain consistent coding style
+# Feel free to delete this file if you don't want it
+# Documentation: https://editorconfig.org
+
 root = true
 
 [*]

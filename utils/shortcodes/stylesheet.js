@@ -4,7 +4,7 @@ const postcss = require('postcss')
 const postcssPresetEnv = require('postcss-preset-env')
 const autoprefixer = require('autoprefixer')
 
-// Twelvety options
+// Twelvety options from .twelvety.js
 const twelvety = require('@12ty')
 
 // Render styles using node-sass

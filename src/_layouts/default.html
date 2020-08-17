@@ -17,21 +17,27 @@
     {% if meta.description -%}
       <meta name="description" content="{{ meta.description }}">
     {%- endif %}
+
+    <!-- Page styles will be moved here, see bottom of file -->
   </head>
   <body>
+    <!-- Include your components just like normal -->
     {% include 'header.html' %}
 
+    <!-- Page content -->
     {{ content }}
 
+    <!-- CSS included in every page using this layout -->
     {% stylesheet 'scss' %}
       @import 'main';
     {% endstylesheet %}
 
+    <!-- JS included in every page using this layout -->
     {% javascript %}
       require('instant.page')
     {% endjavascript %}
 
-    <!-- Capture page script -->
+    <!-- Capture all JS included in this page -->
     {% capture js -%}
       {% script page.url %}
     {%- endcapture -%}
@@ -40,11 +46,11 @@
     <script src="{% asset js, 'js' %}" defer></script>
 
     {% append 'head' %}
-      <!-- Capture page styles -->
+      <!-- Capture all CSS included in this page -->
       {% capture css -%}
         {% styles page.url %}
       {%- endcapture -%}
-      <!-- Capture href of asset -->
+      <!-- Capture href of CSS asset for further use -->
       {% capture href -%}
         {% asset css, 'css' %}
       {%- endcapture -%}
