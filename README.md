@@ -62,3 +62,7 @@ npm install
 ## Features
 
 Twelvety sets up transforms, shortcodes and some sensible Eleventy options.
+
+## Visual Studio Code
+
+If you're using Visual Studio Code I recommend this [Liquid extension](https://github.com/panoply/vscode-liquid) so that your Sass and JavaScript will be highlighted correctly.
