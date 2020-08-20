@@ -5,7 +5,7 @@
 Twelvety is a pre-configured Eleventy starter project built to be fast. It includes:
 
 - Component architecture
-- CSS pipeline using Sass and CleanCSS
+- CSS pipeline using Sass, PostCSS and CleanCSS
 - JS pipeline using Browserify, Babel and Uglify
 - Page-specific CSS and JS
 - Inline critical CSS and defer non-critical CSS
@@ -59,9 +59,36 @@ npm install
 - Run `npm run build` to build for production
 - Run `npm run clean` to clean the output folder and Twelvety cache
 
+The brains of Twelvety live in the `utils` folder: if you just want to make a website, then you don't need to touch anything inside `utils`. However, if you want to change any of the shortcodes, have a look around!
+
 ## Features
 
-Twelvety sets up transforms, shortcodes and some sensible Eleventy options.
+Twelvety sets up transforms, shortcodes and some sensible Eleventy options. Click the features below to learn how they work.
+
+<details>
+<summary><code>stylesheet</code> paired shortcode</summary>
+<br>
+
+Use the `stylesheet` paired shortcode to include your Sass. You can import Sass files from your `styles` directory (defined in `.twelvety.js`) and from `node_modules`. The Sass will be rendered using [node-sass](https://github.com/sass/node-sass), passed into [PostCSS](https://github.com/postcss/postcss) (with [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) and [Autoprefixer](https://github.com/postcss/autoprefixer) for compatability) and either minified using [clean-css](https://github.com/jakubpawlowicz/clean-css) or beautified by [JS Beautifier](https://github.com/beautify-web/js-beautify) (in production and development respectively).
+
+```liquid
+{% stylesheet 'scss' %}
+  @import 'normalize.css/normalize';
+  @import 'mixins';
+
+  .home {
+    @include container;
+
+    color: $color--red;
+  }
+{% endstylesheet %}
+```
+
+By default, Twelvety does **not** use indented Sass so you need to use semicolons. If you want to change this, have a look in the `renderStyles` function near the top of `utils/shortcodes/stylesheet.js`. In the future, Twelvety should probably use the `language` parameter of the paired shortcode (which currently does nothing) to infer this.
+
+The `stylesheet` paired shortcode also has a third parameter, which by default is set to `page.url`, the URL of the current page being rendered. This means that only the required CSS is included in each page. You can make your own 'chunk' of CSS using this parameter, for example, a CSS file common to all pages of your website.
+
+</details>
 
 ## Visual Studio Code
 
