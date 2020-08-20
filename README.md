@@ -13,6 +13,30 @@ Twelvety is a pre-configured Eleventy starter project built to be fast. It inclu
 - Responsive picture shortcode with WebP support
 - Content hash of assets
 
+Write components like this:
+
+```html
+<main class="home">
+  <h1 class="home__title">Twelvety</h1>
+</main>
+
+{% stylesheet 'scss' %}
+  @import 'mixins';
+
+  .home {
+    @include container;
+
+    &__title {
+      color: red;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  console.log('Super fast 💨')
+{% endjavascript %}
+```
+
 ## Deploy to netlify
 
 To quickly deploy your own instance of Twelvety to Netlify, just click the button below and follow the instructions.
