@@ -71,7 +71,7 @@ Twelvety sets up transforms, shortcodes and some sensible Eleventy options. Clic
 
 Use the `stylesheet` paired shortcode to include your Sass. You can import Sass files from your `styles` directory (defined in `.twelvety.js`) and from `node_modules`. The Sass will be rendered using [node-sass](https://github.com/sass/node-sass), passed into [PostCSS](https://github.com/postcss/postcss) (with [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) and [Autoprefixer](https://github.com/postcss/autoprefixer) for compatability) and either minified using [clean-css](https://github.com/jakubpawlowicz/clean-css) or beautified by [JS Beautifier](https://github.com/beautify-web/js-beautify) (in production and development respectively).
 
-```liquid
+```html
 {% stylesheet 'scss' %}
   @import 'normalize.css/normalize';
   @import 'mixins';
@@ -87,6 +87,30 @@ Use the `stylesheet` paired shortcode to include your Sass. You can import Sass 
 By default, Twelvety does **not** use indented Sass so you need to use semicolons. If you want to change this, have a look in the `renderStyles` function near the top of `utils/shortcodes/stylesheet.js`. In the future, Twelvety should probably use the `language` parameter of the paired shortcode (which currently does nothing) to infer this.
 
 The `stylesheet` paired shortcode also has a third parameter, which by default is set to `page.url`, the URL of the current page being rendered. This means that only the required CSS is included in each page. You can make your own 'chunk' of CSS using this parameter, for example, a CSS file common to all pages of your website.
+
+</details>
+
+<details>
+<summary><code>styles</code> shortcode</summary>
+<br>
+
+The `styles` shortcode collects together all Sass written in `stylesheet` paired shortcodes for the given chunk and outputs the rendered CSS. The 'chunk' defaults to `page.url`, the URL of the current page being rendered.
+
+```html
+<!-- Inline all styles on current page -->
+<style>
+  {% styles page.url %}
+</style>
+
+<!-- Capture styles on current page -->
+{% capture css %}
+  {% styles page.url %}
+{% endcapture %}
+<!-- And output asset using `asset` shortcode -->
+<link rel="stylesheet" href="{% asset css, 'css' %}">
+```
+
+Note that the `styles` shortcode must be placed below any `stylesheet` paired shortcodes in the template; see the `append` paired shortcode and transform for more information.
 
 </details>
 
