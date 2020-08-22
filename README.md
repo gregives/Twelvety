@@ -114,6 +114,54 @@ Note that the `styles` shortcode must be placed below any `stylesheet` paired sh
 
 </details>
 
+<details>
+<summary><code>javascript</code> paired shortcode</summary>
+<br>
+
+Include your JavaScript using the `javascript` paired shortcode. Twelvety uses [Browserify](http://browserify.org) so that you can `require('modules')` and [Babel](https://babeljs.io) so you can use the latest JavaScript. Your JavaScript will then be minified using [Uglify](https://github.com/mishoo/UglifyJS) in production or beautified by [JS Beautifier](https://github.com/beautify-web/js-beautify) in development.
+
+```html
+{% javascript %}
+  const axios = require('axios')
+
+  axios.get('/api/endpoint')
+    .then((response) => {
+      console.log('Yay, it worked!')
+    })
+    .catch((error) => {
+      console.log('Uh oh, something went wrong')
+    })
+{% endjavascript %}
+```
+
+The output of each `javascript` paired shortcode will be wrapped in an [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) so that your variables do not pollute global scope. If you want to define something on `window`, use `window.something =`.
+
+</details>
+
+<details>
+<summary><code>script</code> shortcode</summary>
+<br>
+
+The `script` shortcode collects together all the JavaScript for the given chunk and outputs the JavaScript (after transpilation and minification). The 'chunk' defaults to `page.url`, the URL of the current page being rendered.
+
+```html
+<!-- Inline all JavaScript on current page -->
+<script>
+  {% script page.url %}
+</script>
+
+<!-- Capture JavaScript on current page -->
+{% capture js -%}
+  {% script page.url %}
+{%- endcapture -%}
+<!-- And output asset using `asset` shortcode -->
+<script src="{% asset js, 'js' %}" defer></script>
+```
+
+Note that the `script` shortcode must be placed below any `javascript` paired shortcodes in the template; usually this is not a problem as JavaScript is often included immediately preceding `</body>`. If you want the JavaScript somewhere else, see the `append` paired shortcode and transform.
+
+</details>
+
 ## Visual Studio Code
 
 If you're using Visual Studio Code I recommend this [Liquid extension](https://github.com/panoply/vscode-liquid) so that your Sass and JavaScript will be highlighted correctly.
