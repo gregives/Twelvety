@@ -39,9 +39,9 @@ Write components like this:
 
 ## Deploy to netlify
 
-To quickly deploy your own instance of Twelvety to Netlify, just click the button below and follow the instructions.
+To quickly deploy your own instance of Twelvety to netlify, just click the button below and follow the instructions.
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gregives/twelvety)
+[![Deploy to netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gregives/twelvety)
 
 **What will happen when I click this button?** Netlify will clone the Twelvety git repository to your GitHub account (it will ask your permission to do this), add the new repository to your netlify account and deploy it!
 
