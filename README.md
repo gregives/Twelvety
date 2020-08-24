@@ -134,6 +134,8 @@ Include your JavaScript using the `javascript` paired shortcode. Twelvety uses [
 {% endjavascript %}
 ```
 
+The `javascript` paired shortcode has a second parameter, which by default is set to `page.url`, the URL of the current page being rendered. This means that only the required JavaScript is included in each page. You can make your own 'chunk' of JavaScript using this parameter, for example, a JavaScript file for all vendor code.
+
 The output of each `javascript` paired shortcode will be wrapped in an [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) so that your variables do not pollute global scope. If you want to define something on `window`, use `window.something =`.
 
 </details>
