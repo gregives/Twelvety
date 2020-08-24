@@ -164,6 +164,31 @@ Note that the `script` shortcode must be placed below any `javascript` paired sh
 
 </details>
 
+<details>
+<summary><code>asset</code> shortcode</summary>
+<br>
+
+The `asset` shortcode outputs a content-hashed asset with the given content and extension. The content may be either a `String` or `Buffer`. Assets will be saved to the `assets` directory inside the `output` directory (both defined within `.twelvety.js`).
+
+```html
+<!-- Capture some content -->
+{% capture css %}
+h1 {
+  color: red;
+}
+{% endcapture %}
+
+<!-- Save content to content-hashed file with .css extension -->
+<link rel="stylesheet" href="{% asset css, 'css' %}">
+
+<!-- Output of shortcode -->
+<link rel="stylesheet" href="/_assets/58f4b924.css">
+```
+
+You can import the `asset` shortcode function in JavaScript: this is how the `picture` shortcode saves your responsive images into the `assets` directory.
+
+</details>
+
 ## Visual Studio Code
 
 If you're using Visual Studio Code I recommend this [Liquid extension](https://github.com/panoply/vscode-liquid) so that your Sass and JavaScript will be highlighted correctly.
