@@ -257,14 +257,6 @@ Nunjucks' `block`s may be a solution to this problem but they would tie Twelvety
 </details>
 
 <details>
-<summary><code>critical</code> transform</summary>
-<br>
-
-The `critical` transform extracts and inlines critical-path CSS on every page using [critical](https://github.com/addyosmani/critical). Currently, the critical CSS is **not** removed from the linked CSS file(s), which means that some CSS may be laoded twice; I'm looking into a solution for this.
-
-</details>
-
-<details>
 <summary><code>markdown</code> paired shortcode and configuration</summary>
 <br>
 
@@ -308,6 +300,22 @@ This is also really useful for including Markdown files into a template.
 ```
 
 Be careful of the [common pitfall of indented code blocks](https://www.11ty.dev/docs/languages/markdown/#there-are-extra-and-in-my-output) when using the `markdown` paired shortcode.
+
+</details>
+
+<details>
+<summary><code>critical</code> transform</summary>
+<br>
+
+The `critical` transform extracts and inlines critical-path CSS on every page using [critical](https://github.com/addyosmani/critical). Currently, the critical CSS is **not** removed from the linked CSS file(s), which means that some CSS may be laoded twice; I'm looking into a solution for this.
+
+</details>
+
+<details>
+<summary><code>format</code> transform</summary>
+<br>
+
+The `format` transform beautifies HTML in development using [JS Beautifier](https://github.com/beautify-web/js-beautify) and minifies HTML in production using [HTMLMinifier](https://github.com/kangax/html-minifier). Any inline CSS and JavaScript will also be beautified or minified.
 
 </details>
 
