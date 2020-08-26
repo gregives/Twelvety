@@ -223,6 +223,39 @@ The `picture` shortcode is automatically used for every image in Markdown. To di
 
 </details>
 
+<details>
+<summary><code>append</code> paired shortcode and transform</summary>
+<br>
+
+Okay folks, here it is: the one _gotcha_ with Twelvety. In order for the `styles` shortcode to work, it must come after all `stylesheet` paired shortcodes, which would usually be in the `body`. However, usually we want our CSS to be linked or inlined in the `head`. This is where the `append` paired shortcode and transform come in, to move the output of the `styles` shortcode back into the `head` where we want it.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Everything in append paired shortcode will be moved here -->
+  </head>
+  <body>
+    <!-- Stylesheet paired shortcodes can go here -->
+    ...
+    <!-- Append paired shortcode with styles inside -->
+    {% append 'head' %}
+      <style>
+        {% styles page.url %}
+      </style>
+    {% endappend %}
+  </body>
+</html>
+```
+
+The `append` paired shortcode will actually be replaced with a `template`. The `append` transform then uses [jsdom](https://github.com/jsdom/jsdom) to append the contents of the `template` to the given selector (in this case, `head`).
+
+### Possible Workarounds
+
+Nunjucks' `block`s may be a solution to this problem but they would tie Twelvety to nunjucks which I'd rather avoid. Another option is replacing the `{% styles page.url %}` with a placeholder (for example, `<div data-styles="{{ page.url }}">`) which could then be exchanged for the styles using a transform, instead of a shortcode.
+
+</details>
+
 ## Visual Studio Code
 
 If you're using Visual Studio Code I recommend this [Liquid extension](https://github.com/panoply/vscode-liquid) so that your Sass and JavaScript will be highlighted correctly.
