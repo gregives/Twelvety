@@ -256,6 +256,14 @@ Nunjucks' `block`s may be a solution to this problem but they would tie Twelvety
 
 </details>
 
+<details>
+<summary><code>critical</code> transform</summary>
+<br>
+
+The `critical` transform extracts and inlines critical-path CSS on every page using [critical](https://github.com/addyosmani/critical). Currently, the critical CSS is **not** removed from the linked CSS file(s), which means that some CSS may be laoded twice; I'm looking into a solution for this.
+
+</details>
+
 ## Visual Studio Code
 
 If you're using Visual Studio Code I recommend this [Liquid extension](https://github.com/panoply/vscode-liquid) so that your Sass and JavaScript will be highlighted correctly.
