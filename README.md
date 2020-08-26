@@ -69,6 +69,7 @@ Twelvety sets up transforms, shortcodes and some sensible Eleventy options. Clic
 
 <details>
 <summary><strong><code>stylesheet</code> paired shortcode</strong></summary>
+<br>
 
 Use the `stylesheet` paired shortcode to include your Sass. You can import Sass files from your `styles` directory (defined in `.twelvety.js`) and from `node_modules`. The Sass will be rendered using [node-sass](https://github.com/sass/node-sass), passed into [PostCSS](https://github.com/postcss/postcss) (with [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) and [Autoprefixer](https://github.com/postcss/autoprefixer) for compatability) and either minified using [clean-css](https://github.com/jakubpawlowicz/clean-css) or beautified by [JS Beautifier](https://github.com/beautify-web/js-beautify) (in production and development respectively).
 
@@ -89,10 +90,13 @@ By default, Twelvety does **not** use indented Sass so you need to use semicolon
 
 The `stylesheet` paired shortcode also has a third parameter, which by default is set to `page.url`, the URL of the current page being rendered. This means that only the required CSS is included in each page. You can make your own 'chunk' of CSS using this parameter, for example, a CSS file common to all pages of your website.
 
+___
+
 </details>
 
 <details>
 <summary><strong><code>styles</code> shortcode</strong></summary>
+<br>
 
 The `styles` shortcode collects together all Sass written in `stylesheet` paired shortcodes for the given chunk and outputs the rendered CSS. The 'chunk' defaults to `page.url`, the URL of the current page being rendered.
 
@@ -112,10 +116,13 @@ The `styles` shortcode collects together all Sass written in `stylesheet` paired
 
 Note that the `styles` shortcode must be placed below any `stylesheet` paired shortcodes in the template; see the `append` paired shortcode and transform for more information.
 
+___
+
 </details>
 
 <details>
 <summary><strong><code>javascript</code> paired shortcode</strong></summary>
+<br>
 
 Include your JavaScript using the `javascript` paired shortcode. Twelvety uses [Browserify](http://browserify.org) so that you can `require('modules')` and [Babel](https://babeljs.io) so you can use the latest JavaScript. Your JavaScript will then be minified using [Uglify](https://github.com/mishoo/UglifyJS) in production or beautified by [JS Beautifier](https://github.com/beautify-web/js-beautify) in development.
 
@@ -137,10 +144,13 @@ The `javascript` paired shortcode has a second parameter, which by default is se
 
 The output of each `javascript` paired shortcode will be wrapped in an [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) so that your variables do not pollute global scope. If you want to define something on `window`, use `window.something =`.
 
+___
+
 </details>
 
 <details>
 <summary><strong><code>script</code> shortcode</strong></summary>
+<br>
 
 The `script` shortcode collects together all the JavaScript for the given chunk and outputs the JavaScript (after transpilation and minification). The 'chunk' defaults to `page.url`, the URL of the current page being rendered.
 
@@ -160,10 +170,13 @@ The `script` shortcode collects together all the JavaScript for the given chunk 
 
 Note that the `script` shortcode must be placed below any `javascript` paired shortcodes in the template; usually this is not a problem as JavaScript is often included immediately preceding `</body>`. If you want the JavaScript somewhere else, see the `append` paired shortcode and transform.
 
+___
+
 </details>
 
 <details>
 <summary><strong><code>asset</code> shortcode</strong></summary>
+<br>
 
 The `asset` shortcode outputs a content-hashed asset with the given content and extension. The content may be either a `String` or `Buffer`. Assets will be saved to the `assets` directory inside the `output` directory (both defined within `.twelvety.js`).
 
@@ -184,10 +197,13 @@ h1 {
 
 You can import the `asset` shortcode function in JavaScript: this is how the `picture` shortcode saves your responsive images into the `assets` directory.
 
+___
+
 </details>
 
 <details>
 <summary><strong><code>picture</code> shortcode</strong></summary>
+<br>
 
 The `picture` shortcode outputs a responsive picture element with WebP support. It is similar to an `img` tag in that it takes a `src` and `alt`. Your images must be stored within the `images` directory, defined within `.twelvety.js`. Twelvety will save the outputted images to the `assets` directory inside the `output` directory (both defined within `.twelvety.js`). The `picture` shortcode also takes two other parameters: `sizes` which defaults to `90vw, (min-width: 1280px) 1152px`, based upon the breakpoint sizes; and `loading` which defaults to `lazy`, can also be `eager`.
 
@@ -217,10 +233,13 @@ The `picture` shortcode is automatically used for every image in Markdown. To di
 
 **The images outputted by the `picture` shortcode are cached.** If you want to clear the cache, delete `.twelvety.cache` (just a JSON file) or run `npm run clean` to delete the cache and the output directory. If you delete the output directory but `.twelvety.cache`, things will break.
 
+___
+
 </details>
 
 <details>
 <summary><strong><code>append</code> paired shortcode and transform</strong></summary>
+<br>
 
 Okay folks, here it is: the one _gotcha_ with Twelvety. In order for the `styles` shortcode to work, it must come after all `stylesheet` paired shortcodes, which would usually be in the `body`. However, usually we want our CSS to be linked or inlined in the `head`. This is where the `append` paired shortcode and transform come in, to move the output of the `styles` shortcode back into the `head` where we want it.
 
@@ -251,10 +270,13 @@ The same problem exists for the `script` shortcode, however, this is not such a 
 
 Nunjucks' `block`s may be a solution to this problem but they would tie Twelvety to nunjucks which I'd rather avoid. Another option is replacing the `{% styles page.url %}` with a placeholder (for example, `<div data-styles="{{ page.url }}">`) which could then be exchanged for the styles using a transform, instead of a shortcode.
 
+___
+
 </details>
 
 <details>
 <summary><strong><code>markdown</code> paired shortcode and configuration</strong></summary>
+<br>
 
 Twelvety sets its own instance of markdown-it. The configuration options are:
 
@@ -297,19 +319,27 @@ This is also really useful for including Markdown files into a template.
 
 Be careful of the [common pitfall of indented code blocks](https://www.11ty.dev/docs/languages/markdown/#there-are-extra-and-in-my-output) when using the `markdown` paired shortcode.
 
+___
+
 </details>
 
 <details>
 <summary><strong><code>critical</code> transform</strong></summary>
+<br>
 
 The `critical` transform extracts and inlines critical-path CSS on every page using [critical](https://github.com/addyosmani/critical). Currently, the critical CSS is **not** removed from the linked CSS file(s), which means that some CSS may be laoded twice; I'm looking into a solution for this.
+
+___
 
 </details>
 
 <details>
 <summary><strong><code>format</code> transform</strong></summary>
+<br>
 
 The `format` transform beautifies HTML in development using [JS Beautifier](https://github.com/beautify-web/js-beautify) and minifies HTML in production using [HTMLMinifier](https://github.com/kangax/html-minifier). Any inline CSS and JavaScript will also be beautified or minified.
+
+___
 
 </details>
 
