@@ -47,6 +47,8 @@ To quickly deploy your own instance of Twelvety to netlify, just click the butto
 
 ## Run Locally
 
+Click the <kbd>Use this template</kbd> button at the top of this repository to make your own Twelvety repository in your GitHub account. Clone or download your new Twelvety repository onto your computer.
+
 You'll need [Node.js](https://nodejs.org) and npm (included with Node.js). To install the required packages, run
 
 ```sh
