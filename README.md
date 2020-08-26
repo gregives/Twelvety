@@ -245,6 +245,8 @@ Okay folks, here it is: the one _gotcha_ with Twelvety. In order for the `styles
 
 The `append` paired shortcode will actually be replaced with a `template`. The `append` transform then uses [jsdom](https://github.com/jsdom/jsdom) to append the contents of the `template` to the given selector (in this case, `head`).
 
+The same problem exists for the `script` shortcode, however, this is not such a problem because it's very common to include JavaScript from the bottom of `body` anyway.
+
 ### Possible Workarounds
 
 Nunjucks' `block`s may be a solution to this problem but they would tie Twelvety to nunjucks which I'd rather avoid. Another option is replacing the `{% styles page.url %}` with a placeholder (for example, `<div data-styles="{{ page.url }}">`) which could then be exchanged for the styles using a transform, instead of a shortcode.
