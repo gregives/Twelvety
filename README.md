@@ -189,6 +189,40 @@ You can import the `asset` shortcode function in JavaScript: this is how the `pi
 
 </details>
 
+<details>
+<summary><code>picture</code> shortcode</summary>
+<br>
+
+The `picture` shortcode outputs a responsive picture element with WebP support. It is similar to an `img` tag in that it takes a `src` and `alt`. Your images must be stored within the `images` directory, defined within `.twelvety.js`. Twelvety will save the outputted images to the `assets` directory inside the `output` directory (both defined within `.twelvety.js`). The `picture` shortcode also takes two other parameters: `sizes` which defaults to `90vw, (min-width: 1280px) 1152px`, based upon the breakpoint sizes; and `loading` which defaults to `lazy`, can also be `eager`.
+
+```html
+<!-- Picture shortcode with src, alt, sizes and loading -->
+{% picture 'car.jpg', 'Panning photo of grey coupe on road', '90vw', 'eager' %}
+
+<!-- Absolute paths also work -->
+{% picture '/src/_assets/images/car.jpg', 'Panning photo of grey coupe on road', '90vw', 'eager' %}
+
+<!-- Output of shortcode -->
+<picture style="background-color:rgb(38%,28%,26%);padding-bottom:50.000%">
+  <source srcset="/_assets/de73383e.webp 160w,/_assets/de540255.webp 320w,/_assets/f5ae5a88.webp 480w,/_assets/724f8636.webp 640w,/_assets/c56ea7d2.webp 800w,/_assets/5895e31e.webp 960w,/_assets/57b3f4bf.webp 1120w,/_assets/c262ceab.webp 1280w,/_assets/7f120115.webp 1440w,/_assets/17243df5.webp 1600w,/_assets/fdd5ad8c.webp 1760w,/_assets/c3fcc9b2.webp 1920w" sizes="90vw" type="image/webp">
+  <source srcset="/_assets/66146e9b.jpeg 160w,/_assets/e13943d8.jpeg 320w,/_assets/991f26a4.jpeg 480w,/_assets/f03726c4.jpeg 640w,/_assets/6723a0ee.jpeg 800w,/_assets/8fd76043.jpeg 960w,/_assets/222c41b6.jpeg 1120w,/_assets/181500ea.jpeg 1280w,/_assets/01dc1181.jpeg 1440w,/_assets/7a40a8d9.jpeg 1600w,/_assets/a1472000.jpeg 1760w,/_assets/a3312c7b.jpeg 1920w" sizes="90vw" type="image/jpeg">
+  <img src="/_assets/a3312c7b.jpeg" alt="Panning photo of grey coupe on road" loading="eager">
+</picture>
+```
+
+The `picture` shortcode uses native lazy-loading but it would be easy to add support for `lazysizes` or a similar library if you wished. The `picture` shortcode calculates the average colour of the image to show while the image loads, using `padding-bottom` to avoid layout shift.
+
+The `picture` shortcode is automatically used for every image in Markdown. To disable this, you'll need to edit the instance of markdown-it (see Markdown feature).
+
+```md
+<!-- Automatically uses picture shortcode -->
+![Panning photo of grey coupe on road](car.jpg)
+```
+
+**The images outputted by the `picture` shortcode are cached.** If you want to clear the cache, delete `.twelvety.cache` (just a JSON file) or run `npm run clean` to delete the cache and the output directory. If you delete the output directory but `.twelvety.cache`, things will break.
+
+</details>
+
 ## Visual Studio Code
 
 If you're using Visual Studio Code I recommend this [Liquid extension](https://github.com/panoply/vscode-liquid) so that your Sass and JavaScript will be highlighted correctly.
