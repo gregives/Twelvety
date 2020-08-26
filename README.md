@@ -264,6 +264,53 @@ The `critical` transform extracts and inlines critical-path CSS on every page us
 
 </details>
 
+<details>
+<summary><code>markdown</code> paired shortcode and configuration</summary>
+<br>
+
+Twelvety sets its own instance of markdown-it. The configuration options are:
+
+```js
+{
+  html: true,
+  breaks: true,
+  typographer: true
+}
+```
+
+Twelvety also modifies the `image` rule of the renderer: instead of outputting an `img` element, Twelvety uses the responsive `picture` shortcode to render each image. If you want to disable this, remove the following lines in `utils/markdown.js`.
+
+```js
+md.renderer.rules.image = function(tokens, index) {
+  const token = tokens[index]
+  const src = token.attrs[token.attrIndex('src')][1]
+  const alt = token.content
+  return pictureShortcode(src, alt)
+}
+```
+
+Twelvety also adds a `markdown` paired shortcode which uses the markdown-it configuration.
+
+```html
+{% markdown %}
+# `markdown` paired shortcode
+
+Let's you use **Markdown** like _this_.
+{% endmarkdown %}
+```
+
+This is also really useful for including Markdown files into a template.
+
+```html
+{% markdown %}
+  {%- include 'content.md' -%}
+{% endmarkdown %}
+```
+
+Be careful of the [common pitfall of indented code blocks](https://www.11ty.dev/docs/languages/markdown/#there-are-extra-and-in-my-output) when using the `markdown` paired shortcode.
+
+</details>
+
 ## Visual Studio Code
 
 If you're using Visual Studio Code I recommend this [Liquid extension](https://github.com/panoply/vscode-liquid) so that your Sass and JavaScript will be highlighted correctly.
