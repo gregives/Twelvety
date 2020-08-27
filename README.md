@@ -11,7 +11,7 @@ Twelvety is a pre-configured Eleventy starter project built to be fast. It inclu
 - Inline critical CSS and defer non-critical CSS
 - Minified HTML, CSS and JS
 - Responsive picture shortcode **with WebP support**
-- Content hash of assets
+- Content-hash of assets
 
 Write components like this:
 
@@ -57,7 +57,7 @@ npm install
 
 ### Commands
 
-- Run `npm run serve` to run a development server and live reload
+- Run `npm run serve` to run a development server and live-reload
 - Run `npm run build` to build for production
 - Run `npm run clean` to clean the output folder and Twelvety cache
 
@@ -71,7 +71,7 @@ Twelvety sets up transforms, shortcodes and some sensible Eleventy options. Clic
 <summary><strong><code>stylesheet</code> paired shortcode</strong></summary>
 <br>
 
-Use the `stylesheet` paired shortcode to include your Sass. You can import Sass files from your `styles` directory (defined in `.twelvety.js`) and from `node_modules`. The Sass will be rendered using [node-sass](https://github.com/sass/node-sass), passed into [PostCSS](https://github.com/postcss/postcss) (with [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) and [Autoprefixer](https://github.com/postcss/autoprefixer) for compatability) and either minified using [clean-css](https://github.com/jakubpawlowicz/clean-css) or beautified by [JS Beautifier](https://github.com/beautify-web/js-beautify) (in production and development respectively).
+Use the `stylesheet` paired shortcode to include your Sass. You can import Sass files from your `styles` directory (defined in `.twelvety.js`) and from `node_modules`. The Sass will be rendered using [node-sass](https://github.com/sass/node-sass), passed into [PostCSS](https://github.com/postcss/postcss) (with [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) and [Autoprefixer](https://github.com/postcss/autoprefixer) for compatibility) and either minified using [clean-css](https://github.com/jakubpawlowicz/clean-css) or beautified by [JS Beautifier](https://github.com/beautify-web/js-beautify) (in production and development respectively).
 
 ```html
 {% stylesheet 'scss' %}
@@ -241,7 +241,7 @@ ___
 <summary><strong><code>append</code> paired shortcode and transform</strong></summary>
 <br>
 
-Okay folks, here it is: the one _gotcha_ with Twelvety. In order for the `styles` shortcode to work, it must come after all `stylesheet` paired shortcodes, which would usually be in the `body`. However, usually we want our CSS to be linked or inlined in the `head`. This is where the `append` paired shortcode and transform come in, to move the output of the `styles` shortcode back into the `head` where we want it.
+Okay folks, here it is: the one _gotcha_ with Twelvety. In order for the `styles` shortcode to work, it must come after all `stylesheet` paired shortcodes, which would usually be in the `body`. However, if we want our CSS to be linked or inlined in the `head`. This is where the `append` paired shortcode and transform come in, to move the output of the `styles` shortcode back into the `head` where we want it.
 
 ```html
 <!DOCTYPE html>
@@ -327,7 +327,7 @@ ___
 <summary><strong><code>critical</code> transform</strong></summary>
 <br>
 
-The `critical` transform extracts and inlines critical-path CSS on every page using [critical](https://github.com/addyosmani/critical). Currently, the critical CSS is **not** removed from the linked CSS file(s), which means that some CSS may be laoded twice; I'm looking into a solution for this.
+The `critical` transform extracts and inlines critical-path CSS on every page using [critical](https://github.com/addyosmani/critical). Currently, the critical CSS is **not** removed from the linked CSS file(s), which means that some CSS may be loaded twice; I'm looking into a solution for this.
 
 ___
 

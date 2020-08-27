@@ -56,7 +56,7 @@ module.exports = function(config) {
     const joined = SCRIPTS[chunk].map((data) => `;(() => {\n${data}\n})()`).join('\n')
     // Bundle the scripts using browserify
     const bundled = await bundleScripts(joined)
-    // Use Babel with babel-preset-env for compatability
+    // Use Babel with babel-preset-env for compatibility
     return babel.transformSync(bundled, { presets: [babelPresetEnv] }).code
   })
 
