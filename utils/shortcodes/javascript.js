@@ -5,19 +5,26 @@ const babelPresetEnv = require('@babel/preset-env')
 // Readable stream for browserify in-memory
 const { Readable } = require('stream')
 
+// Twelvety options from .twelvety.js
+const twelvety = require('@12ty')
+
 // Bundle scripts with browserify
 // Documentation: https://github.com/browserify/browserify
 function bundleScripts(data) {
   return new Promise((resolve, reject) => {
     // Pass browserify a ReadableStream of the script
-    browserify([Readable.from(data)])
-      // Plugin tinyify provides various optimisations
-      .plugin('tinyify')
-      .bundle((error, buffer) => {
-        if (error)
-          reject(error)
-        resolve(buffer)
-      })
+    let temp = browserify([Readable.from(data)])
+
+    // Plugin tinyify provides various optimisations
+    if (twelvety.env === 'production')
+      temp = temp.plugin('tinyify')
+
+    // Bundle code for browser
+    temp.bundle((error, buffer) => {
+      if (error)
+        reject(error)
+      resolve(buffer)
+    })
   })
 }
 
