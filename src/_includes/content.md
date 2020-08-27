@@ -9,6 +9,8 @@ Twelvety is a pre-configured Eleventy starter project built to be fast. It inclu
   - Responsive picture shortcode with WebP support
   - Content hash of assets
 
+See the [GitHub repository](https://github.com/gregives/twelvety) for documentation.
+
 Made and used by [Greg Ives](https://gregives.co.uk)
 
 <!-- Markdown images will automatically use the responsive picture shortcode -->
