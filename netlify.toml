@@ -1,0 +1,6 @@
+# This file tells Netlify how to build Twelvety
+# If you aren't using Netlify then you can delete this file
+
+[build]
+  command = "npm run build"
+  publish = "dist"
