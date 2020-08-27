@@ -34,6 +34,8 @@
 
     <!-- JS included in every page using this layout -->
     {% javascript %}
+      // instant.page preloads pages for you
+      // Documentation: https://instant.page
       require('instant.page')
     {% endjavascript %}
 
@@ -45,6 +47,7 @@
     <!-- Defer page script -->
     <script src="{% asset js, 'js' %}" defer></script>
 
+    <!-- Append everything inside to head, see README for more information -->
     {% append 'head' %}
       <!-- Capture all CSS included in this page -->
       {% capture css -%}
