@@ -96,26 +96,28 @@ module.exports = function(src, alt, sizes = '90vw, (min-width: 1280px) 1152px', 
   const color = getAverageColor(original)
 
   // Save responsive images in same format
-  const sameFormat = Object.fromEntries(SIZES.map((width) => {
-    if (cachePicture && cachePicture.same.hasOwnProperty(width))
-      return [width, cachePicture.same[width]]
-    return [width, saveImageFormat(original, width, format)]
-  }))
+  const sameFormat = SIZES.reduce((images, width) => {
+    images[width] = (cachePicture && cachePicture.same.hasOwnProperty(width))
+      ? cachePicture.same[width]
+      : saveImageFormat(original, width, format)
+    return images
+  }, {})
 
   // Image descriptor with width
-  const sameFormatDesc = Object.keys(sameFormat).map((size) => {
+  const sameFormatDesc = SIZES.map((size) => {
     return `${sameFormat[size]} ${size}w`
   })
 
   // Save responsive images in webp format
-  const webpFormat = Object.fromEntries(SIZES.map((width) => {
-    if (cachePicture && cachePicture.webp.hasOwnProperty(width))
-      return [width, cachePicture.webp[width]]
-    return [width, saveImageFormat(original, width, 'webp')]
-  }))
+  const webpFormat = SIZES.reduce((images, width) => {
+    images[width] = (cachePicture && cachePicture.webp.hasOwnProperty(width))
+      ? cachePicture.webp[width]
+      : saveImageFormat(original, width, 'webp')
+    return images
+  }, {})
 
   // Image descriptor with width
-  const webpFormatDesc = Object.keys(webpFormat).map((size) => {
+  const webpFormatDesc = SIZES.map((size) => {
     return `${webpFormat[size]} ${size}w`
   })
 
