@@ -16,5 +16,8 @@ module.exports = {
   },
   // Eleventy environment
   // Production or development set in package.json scripts
-  env: process.env.ELEVENTY_ENV
+  env: process.env.ELEVENTY_ENV,
+  // Enable Sass's indented syntax
+  // Documentation: https://sass-lang.com/documentation/syntax#the-indented-syntax
+  indentedSass: false
 }
