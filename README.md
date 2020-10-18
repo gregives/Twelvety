@@ -86,7 +86,7 @@ Use the `stylesheet` paired shortcode to include your Sass. You can import Sass 
 {% endstylesheet %}
 ```
 
-By default, Twelvety does **not** use indented Sass so you need to use semicolons. If you want to change this, have a look in the `renderStyles` function near the top of `utils/shortcodes/stylesheet.js`. In the future, Twelvety should probably use the `language` parameter of the paired shortcode (which currently does nothing) to infer this.
+The second parameter of the `stylesheet` paired shortcode is the language; currently, this does nothing and is included solely to align with Shopify's definition of the shortcode. If you want to use Sass **indented syntax**, you can change the `indentedSass` Twelvety option, found in `.twelvety.js`.
 
 The `stylesheet` paired shortcode also has a third parameter, which by default is set to `page.url`, the URL of the current page being rendered. This means that only the required CSS is included in each page. You can make your own 'chunk' of CSS using this parameter, for example, a CSS file common to all pages of your website.
 
