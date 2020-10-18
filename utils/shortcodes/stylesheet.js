@@ -19,8 +19,7 @@ function renderStyles(data) {
         path.join(process.cwd(), twelvety.dir.input, twelvety.dir.styles),
         path.join(process.cwd(), 'node_modules')
       ],
-      // Set `indentedSyntax` to true if you want to use indented sass
-      indentedSyntax: false
+      indentedSyntax: twelvety.indentedSass
     }, (error, result) => {
       if (error)
         reject(error)
