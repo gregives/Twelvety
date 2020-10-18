@@ -3,6 +3,7 @@ const sass = require('node-sass')
 const postcss = require('postcss')
 const postcssPresetEnv = require('postcss-preset-env')
 const autoprefixer = require('autoprefixer')
+const outdent = require('outdent')
 
 // Twelvety options from .twelvety.js
 const twelvety = require('@12ty')
@@ -39,6 +40,9 @@ module.exports = function(config) {
     // Make sure that the chunk exists
     if (!STYLES.hasOwnProperty(chunk))
       STYLES[chunk] = []
+
+    // Remove leading spaces
+    content = outdent.string(content)
 
     // Add the stylesheet to the chunk, if it's not already in it
     if (!STYLES[chunk].includes(content))

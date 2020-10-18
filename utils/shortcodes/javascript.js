@@ -1,6 +1,7 @@
 const browserify = require('browserify')
 const babel = require('@babel/core')
 const babelPresetEnv = require('@babel/preset-env')
+const outdent = require('outdent')
 
 // Readable stream for browserify in-memory
 const { Readable } = require('stream')
@@ -38,6 +39,9 @@ module.exports = function(config) {
     // Make sure that the chunk exists
     if (!SCRIPTS.hasOwnProperty(chunk))
       SCRIPTS[chunk] = []
+
+    // Remove leading spaces
+    content = outdent.string(content)
 
     // Add the script to the chunk, if it's not already in it
     if (!SCRIPTS[chunk].includes(content))
