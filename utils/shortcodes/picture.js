@@ -125,7 +125,7 @@ module.exports = function(src, alt, sizes = '90vw, (min-width: 1280px) 1152px', 
   const fallback = sameFormat[SIZES[SIZES.length - 1]]
 
   // Aspect ratio for padding-bottom
-  const ratio = (height / width * 100).toFixed(3)
+  const ratio = Math.round(height * 100000 / width) / 1000
 
   // Responsive picture with srcset and native lazy loading
   const picture = `
