@@ -266,10 +266,6 @@ The `append` paired shortcode will actually be replaced with a `template`. The `
 
 The same problem exists for the `script` shortcode, however, this is not such a problem because it's very common to include JavaScript from the bottom of `body` anyway.
 
-### Possible Workarounds
-
-Nunjucks' `block`s may be a solution to this problem but they would tie Twelvety to nunjucks which I'd rather avoid. Another option is replacing the `{% styles page.url %}` with a placeholder (for example, `<div data-styles="{{ page.url }}">`) which could then be exchanged for the styles using a transform, instead of a shortcode.
-
 ___
 
 </details>
