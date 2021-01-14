@@ -4,4 +4,3 @@ node_modules
 # Twelvety caches responsive images
 # Don't commit otherwise your build won't generate any images
 .twelvety.cache
-yarn.lock
