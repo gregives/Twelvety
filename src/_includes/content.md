@@ -6,7 +6,7 @@ Twelvety is a pre-configured Eleventy starter project built to be fast. It inclu
   - Page-specific CSS and JS
   - Inline critical CSS and defer non-critical CSS
   - Minified HTML, CSS and JS
-  - Responsive picture shortcode **with WebP support**
+  - Responsive picture shortcode **with AVIF and WebP support**
   - Content-hash of assets
 
 See the [GitHub repository](https://github.com/gregives/twelvety) for documentation.
