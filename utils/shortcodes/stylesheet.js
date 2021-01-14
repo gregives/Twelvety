@@ -8,7 +8,7 @@ const outdent = require('outdent')
 // Twelvety options from .twelvety.js
 const twelvety = require('@12ty')
 
-// Render styles using sass
+// Render styles using dart-sass
 // Documentation: https://github.com/sass/dart-sass#javascript-api
 function renderStyles(data) {
   return new Promise((resolve, reject) => {
@@ -58,7 +58,7 @@ module.exports = function(config) {
 
     // Join all the styles in the chunk
     const joined = STYLES[chunk].join('\n')
-    // Render sass using sass
+    // Render sass using dart-sass
     const rendered = await renderStyles(joined)
     // Input path used by PostCSS
     const from = path.resolve(process.cwd(), this.page.inputPath)
