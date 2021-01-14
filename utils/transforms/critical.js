@@ -5,7 +5,7 @@ const critical = require('critical')
 const twelvety = require('@12ty')
 
 module.exports = async function(content, outputPath) {
-  if (outputPath.endsWith('.html') && twelvety.env === 'production') {
+  if (outputPath && outputPath.endsWith('.html') && twelvety.env === 'production') {
     const { css } = await critical.generate({
       base: twelvety.dir.output,
       html: content,
