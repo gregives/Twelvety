@@ -1,5 +1,5 @@
 const path = require('path')
-const sass = require('node-sass')
+const sass = require('sass')
 const postcss = require('postcss')
 const postcssPresetEnv = require('postcss-preset-env')
 const autoprefixer = require('autoprefixer')
@@ -8,8 +8,8 @@ const outdent = require('outdent')
 // Twelvety options from .twelvety.js
 const twelvety = require('@12ty')
 
-// Render styles using node-sass
-// Documentation: https://github.com/sass/node-sass
+// Render styles using dart-sass
+// Documentation: https://github.com/sass/dart-sass#javascript-api
 function renderStyles(data) {
   return new Promise((resolve, reject) => {
     sass.render({
@@ -58,7 +58,7 @@ module.exports = function(config) {
 
     // Join all the styles in the chunk
     const joined = STYLES[chunk].join('\n')
-    // Render sass using node-sass
+    // Render sass using dart-sass
     const rendered = await renderStyles(joined)
     // Input path used by PostCSS
     const from = path.resolve(process.cwd(), this.page.inputPath)
