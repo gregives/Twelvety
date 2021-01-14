@@ -9,7 +9,7 @@ module.exports = function(config) {
   config.addTransform('critical', critical)
 
   config.addTransform('format', function(content, outputPath) {
-    if (outputPath.endsWith('.html')) {
+    if (outputPath && outputPath.endsWith('.html')) {
       return minify.html(content)
     }
 

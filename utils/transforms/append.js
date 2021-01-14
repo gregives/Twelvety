@@ -1,7 +1,7 @@
 const { JSDOM } = require('jsdom')
 
 module.exports = async function(content, outputPath) {
-  if (outputPath.endsWith('.html')) {
+  if (outputPath && outputPath.endsWith('.html')) {
     const dom = new JSDOM(content)
     const { document } = dom.window
 
