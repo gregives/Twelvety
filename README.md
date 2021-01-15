@@ -205,7 +205,7 @@ ___
 <summary><strong><code>picture</code> shortcode</strong></summary>
 <br>
 
-The `picture` shortcode outputs a responsive picture element with WebP support. It is similar to an `img` tag in that it takes a `src` and `alt`. Your images must be stored within the `images` directory, defined within `.twelvety.js`. Twelvety will save the outputted images to the `assets` directory inside the `output` directory (both defined within `.twelvety.js`). The `picture` shortcode also takes two other parameters: `sizes` which defaults to `90vw, (min-width: 1280px) 1152px`, based upon the breakpoint sizes; and `loading` which defaults to `lazy`, can also be `eager`.
+The `picture` shortcode takes `src` and `alt` parameters and outputs a responsive picture element with AVIF and WebP support. Your images must be stored within the `images` directory, defined within `.twelvety.js`. Twelvety will save the outputted images to the `assets` directory inside the `output` directory (both defined within `.twelvety.js`). The `picture` shortcode also takes two other parameters: `sizes` which defaults to `90vw, (min-width: 1280px) 1152px`, based upon the breakpoint sizes; and `loading` which defaults to `lazy`, can also be `eager`.
 
 ```html
 <!-- Picture shortcode with src, alt, sizes and loading -->
@@ -215,10 +215,11 @@ The `picture` shortcode outputs a responsive picture element with WebP support. 
 {% picture '/src/_assets/images/car.jpg', 'Panning photo of grey coupe on road', '90vw', 'eager' %}
 
 <!-- Output of shortcode -->
-<picture style="background-color:rgb(38%,28%,26%);padding-bottom:50.000%">
-  <source srcset="/_assets/de73383e.webp 160w,/_assets/de540255.webp 320w,/_assets/f5ae5a88.webp 480w,/_assets/724f8636.webp 640w,/_assets/c56ea7d2.webp 800w,/_assets/5895e31e.webp 960w,/_assets/57b3f4bf.webp 1120w,/_assets/c262ceab.webp 1280w,/_assets/7f120115.webp 1440w,/_assets/17243df5.webp 1600w,/_assets/fdd5ad8c.webp 1760w,/_assets/c3fcc9b2.webp 1920w" sizes="90vw" type="image/webp">
-  <source srcset="/_assets/66146e9b.jpeg 160w,/_assets/e13943d8.jpeg 320w,/_assets/991f26a4.jpeg 480w,/_assets/f03726c4.jpeg 640w,/_assets/6723a0ee.jpeg 800w,/_assets/8fd76043.jpeg 960w,/_assets/222c41b6.jpeg 1120w,/_assets/181500ea.jpeg 1280w,/_assets/01dc1181.jpeg 1440w,/_assets/7a40a8d9.jpeg 1600w,/_assets/a1472000.jpeg 1760w,/_assets/a3312c7b.jpeg 1920w" sizes="90vw" type="image/jpeg">
-  <img src="/_assets/a3312c7b.jpeg" alt="Panning photo of grey coupe on road" loading="eager">
+<picture style="background-color:rgb(38%,28%,26%);padding-bottom:50%">
+  <source srcset="/_assets/ccb61a31.avif 160w,/_assets/5e167f97.avif 320w,/_assets/79654321.avif 480w,/_assets/6f39f557.avif 640w,/_assets/5f92b843.avif 800w,/_assets/b215cf66.avif 960w,/_assets/f662f584.avif 1120w,/_assets/a7d9e107.avif 1280w,/_assets/3db91a0e.avif 1440w,/_assets/7ce35313.avif 1600w,/_assets/7e74c36b.avif 1760w,/_assets/3737beec.avif 1920w" sizes="90vw" type="image/avif">
+  <source srcset="/_assets/672a842c.webp 160w,/_assets/0e7cdd2f.webp 320w,/_assets/3b62393e.webp 480w,/_assets/ba4e43dd.webp 640w,/_assets/c5cecc99.webp 800w,/_assets/bc541ea5.webp 960w,/_assets/c13f6467.webp 1120w,/_assets/6d620165.webp 1280w,/_assets/72ce0629.webp 1440w,/_assets/756857ea.webp 1600w,/_assets/bb6ad358.webp 1760w,/_assets/483e9c95.webp 1920w" sizes="90vw" type="image/webp">
+  <source srcset="/_assets/551ddc5e.jpeg 160w,/_assets/6a3b0321.jpeg 320w,/_assets/8f677440.jpeg 480w,/_assets/2bf90b83.jpeg 640w,/_assets/806f0621.jpeg 800w,/_assets/4a810813.jpeg 960w,/_assets/3766add2.jpeg 1120w,/_assets/601b629c.jpeg 1280w,/_assets/216167e2.jpeg 1440w,/_assets/c39ac58c.jpeg 1600w,/_assets/d5728fe8.jpeg 1760w,/_assets/25a2b530.jpeg 1920w" sizes="90vw" type="image/jpeg">
+  <img src="/_assets/25a2b530.jpeg" alt="Panning photo of grey coupe on road" loading="lazy">
 </picture>
 ```
 
