@@ -16,7 +16,9 @@ const SIZES = Array.from(new Array(12), (_, index) => (index + 1) * 160)
 const CACHE_FILE = path.join(process.cwd(), '.twelvety.cache')
 
 // Quality of outputted images
-const QUALITY = 75
+const SAME_QUALITY = 75
+const WEBP_QUALITY = 60
+const AVIF_QUALITY = 35
 
 // Function to deasync sharp functions
 // This is required for synchronous markdown-it plugin
@@ -52,10 +54,10 @@ function loadCache() {
 }
 
 // Save image as the given size and format
-function saveImageFormat(image, width, format) {
+function saveImageFormat(image, width, format, quality) {
   // Resize image and format with given quality
   const formatted = image.clone().resize(width)[format]({
-    quality: QUALITY
+    quality
   })
 
   // Save buffer of formatted image
@@ -99,7 +101,7 @@ module.exports = function(src, alt, sizes = '90vw, (min-width: 1280px) 1152px', 
   const sameFormat = SIZES.reduce((images, width) => {
     images[width] = (cachePicture && cachePicture.same.hasOwnProperty(width))
       ? cachePicture.same[width]
-      : saveImageFormat(original, width, format)
+      : saveImageFormat(original, width, format, SAME_QUALITY)
     return images
   }, {})
 
@@ -112,7 +114,7 @@ module.exports = function(src, alt, sizes = '90vw, (min-width: 1280px) 1152px', 
   const webpFormat = SIZES.reduce((images, width) => {
     images[width] = (cachePicture && cachePicture.webp.hasOwnProperty(width))
       ? cachePicture.webp[width]
-      : saveImageFormat(original, width, 'webp')
+      : saveImageFormat(original, width, 'webp', WEBP_QUALITY)
     return images
   }, {})
 
@@ -125,7 +127,7 @@ module.exports = function(src, alt, sizes = '90vw, (min-width: 1280px) 1152px', 
   const avifFormat = SIZES.reduce((images, width) => {
     images[width] = (cachePicture && cachePicture.avif.hasOwnProperty(width))
       ? cachePicture.avif[width]
-      : saveImageFormat(original, width, 'avif')
+      : saveImageFormat(original, width, 'avif', AVIF_QUALITY)
     return images
   }, {})
 
