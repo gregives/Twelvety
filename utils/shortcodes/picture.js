@@ -6,6 +6,9 @@ const jsonfile = require('jsonfile')
 // Twelvety options from .twelvety.js
 const twelvety = require('@12ty')
 
+// Image formats for picture
+const formats = twelvety.imageFormats
+
 // Asset shortcode for saving hashed assets
 const saveAsset = require('./asset'), { hashContent } = saveAsset
 
@@ -14,11 +17,6 @@ const SIZES = Array.from(new Array(12), (_, index) => (index + 1) * 160)
 
 // File to save responsive image cache
 const CACHE_FILE = path.join(process.cwd(), '.twelvety.cache')
-
-// Quality of outputted images
-const SAME_QUALITY = 75
-const WEBP_QUALITY = 60
-const AVIF_QUALITY = 35
 
 // Function to deasync sharp functions
 // This is required for synchronous markdown-it plugin
@@ -92,72 +90,54 @@ module.exports = function(src, alt, sizes = '90vw, (min-width: 1280px) 1152px', 
   const cachePicture = cache.hasOwnProperty(imageHash) && cache[imageHash]
 
   // Get metadata from original image
-  const { format, height, width } = deasyncSharp(original, 'metadata')
+  const { format: inputFormat, height, width } = deasyncSharp(original, 'metadata')
 
   // Average color used for background while image loads
   const color = getAverageColor(original)
 
-  // Save responsive images in same format
-  const sameFormat = SIZES.reduce((images, width) => {
-    images[width] = (cachePicture && cachePicture.same.hasOwnProperty(width))
-      ? cachePicture.same[width]
-      : saveImageFormat(original, width, format, SAME_QUALITY)
+  // Generate images for all formats and widths
+  const images = Object.entries(formats).reduce((images, [format, quality]) => {
+    // If format is `same` then use the same format as the input
+    format = format === 'same' ? inputFormat : format
+
+    images[format] = SIZES.reduce((formatImages, width) => {
+      // Use the cached image or save a new image
+      formatImages[width] = (cachePicture && cachePicture[format] && cachePicture[format][width]) ||
+        saveImageFormat(original, width, format, quality)
+      return formatImages
+    }, {})
+
     return images
   }, {})
 
-  // Image descriptor with width
-  const sameFormatDesc = SIZES.map((size) => {
-    return `${sameFormat[size]} ${size}w`
-  })
-
-  // Save responsive images in webp format
-  const webpFormat = SIZES.reduce((images, width) => {
-    images[width] = (cachePicture && cachePicture.webp.hasOwnProperty(width))
-      ? cachePicture.webp[width]
-      : saveImageFormat(original, width, 'webp', WEBP_QUALITY)
-    return images
+  // Create descriptors for picture srcsets
+  const descriptors = Object.entries(images).reduce((descriptors, [format, images]) => {
+    descriptors[format] = Object.entries(images).map(([width, image]) => `${image} ${width}w`).join(',')
+    return descriptors
   }, {})
 
-  // Image descriptor with width
-  const webpFormatDesc = SIZES.map((size) => {
-    return `${webpFormat[size]} ${size}w`
-  })
-
-  // Save responsive images in avif format
-  const avifFormat = SIZES.reduce((images, width) => {
-    images[width] = (cachePicture && cachePicture.avif.hasOwnProperty(width))
-      ? cachePicture.avif[width]
-      : saveImageFormat(original, width, 'avif', AVIF_QUALITY)
-    return images
-  }, {})
-
-  // Image descriptor with width
-  const avifFormatDesc = SIZES.map((size) => {
-    return `${avifFormat[size]} ${size}w`
-  })
-
-  // Use largest same format image as fallback
-  const fallback = sameFormat[SIZES[SIZES.length - 1]]
+  // Use input format as fallback format if possible
+  const fallbackFormat = formats.hasOwnProperty('same') ? inputFormat : Object.keys(formats)[0]
+  const fallback = images[fallbackFormat][SIZES[SIZES.length - 1]]
 
   // Aspect ratio for padding-bottom
   const ratio = Math.round(height * 100000 / width) / 1000
 
+  // Render srcsets for picture
+  const srcsets = Object.entries(descriptors).map(([format, descriptor]) => {
+    return `<source srcset="${descriptor}" sizes="${sizes}" type="image/${format}">`
+  }).join('\n      ')
+
   // Responsive picture with srcset and native lazy loading
   const picture = `
     <picture style="background-color:${color};padding-bottom:${ratio}%">
-      <source srcset="${avifFormatDesc.join(',')}" sizes="${sizes}" type="image/avif">
-      <source srcset="${webpFormatDesc.join(',')}" sizes="${sizes}" type="image/webp">
-      <source srcset="${sameFormatDesc.join(',')}" sizes="${sizes}" type="image/${format}">
+      ${srcsets}
       <img src="${fallback}" alt="${alt}" loading="${loading}">
     </picture>
   `
 
-  // Add picture to cache
-  cache[imageHash] = {
-    same: sameFormat,
-    webp: webpFormat,
-    avif: avifFormat
-  }
+  // Add images to cache
+  cache[imageHash] = images
 
   // Save cache file
   jsonfile.writeFileSync(CACHE_FILE, cache, { spaces: 2 })
