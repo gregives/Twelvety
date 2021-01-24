@@ -20,7 +20,7 @@
     "@11ty/eleventy": "^0.11.1",
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "autoprefixer": "^10.2.1",
+    "autoprefixer": "^10.2.3",
     "browserify": "^17.0.0",
     "clean-css": "^4.2.3",
     "critical": "^2.0.6",
@@ -36,9 +36,9 @@
     "postcss": "^8.2.4",
     "postcss-preset-env": "^6.7.0",
     "rimraf": "^3.0.2",
-    "sass": "^1.32.4",
+    "sass": "^1.32.5",
     "sharp": "^0.27.0",
     "tinyify": "^3.0.0",
-    "uglify-js": "^3.12.4"
+    "uglify-js": "^3.12.5"
   }
 }
