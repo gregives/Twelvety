@@ -24,9 +24,9 @@ module.exports = {
   // Pass `same` to generate responsive images in the input format
   // Documentation: https://sharp.pixelplumbing.com/api-output
   imageFormats: {
-    same: 75,
-    webp: 60,
     // Remove AVIF if builds are taking too long
-    avif: 30
+    avif: 30,
+    webp: 60,
+    same: 75
   }
 }

@@ -132,7 +132,7 @@ module.exports = function(src, alt, sizes = '90vw, (min-width: 1280px) 1152px', 
   const picture = `
     <picture style="background-color:${color};padding-bottom:${ratio}%">
       ${srcsets}
-      <img src="${fallback}" alt="${alt}" loading="${loading}">
+      <img src="${fallback}" alt="${alt}" width="${width}" height="${height}" loading="${loading}">
     </picture>
   `
 
