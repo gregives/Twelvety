@@ -324,7 +324,7 @@ ___
 <summary><strong><code>critical</code> transform</strong></summary>
 <br>
 
-The `critical` transform extracts and inlines critical-path CSS on every page using [critical](https://github.com/addyosmani/critical). Currently, the critical CSS is **not** removed from the linked CSS file(s), which means that some CSS may be loaded twice; I'm looking into a solution for this.
+The `critical` transform now uses [eleventy-critical-css](https://github.com/gregives/eleventy-critical-css) to extract and inline critical-path CSS on every page.
 
 ___
 
