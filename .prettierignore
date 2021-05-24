@@ -1,0 +1,3 @@
+# Prettier and Liquid do not work well together!
+*.html
+*.md

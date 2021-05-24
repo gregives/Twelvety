@@ -1,10 +1,10 @@
-const cleancss = require('clean-css')
-const uglify = require('uglify-js')
-const htmlmin = require('html-minifier')
-const beautify = require('js-beautify')
+const cleancss = require("clean-css");
+const uglify = require("uglify-js");
+const htmlmin = require("html-minifier");
+const beautify = require("js-beautify");
 
 // Twelvety options from .twelvety.js
-const twelvety = require('@12ty')
+const twelvety = require("@12ty");
 
 // Use beautify in development
 // Options: https://github.com/beautify-web/js-beautify
@@ -12,42 +12,41 @@ const BEAUTIFY_OPTIONS = {
   extra_liners: [],
   indent_inner_html: true,
   indent_size: 2,
-  max_preserve_newlines: 1
-}
+  max_preserve_newlines: 1,
+};
 
 function minifyCSS(content, type) {
   // Ignore inline and media types
-  if (['media', 'inline'].includes(type))
-    return content
+  if (["media", "inline"].includes(type)) return content;
 
-  if (twelvety.env === 'production') {
+  if (twelvety.env === "production") {
     // clean-css
     // Options: https://github.com/jakubpawlowicz/clean-css
     return new cleancss({
       level: {
         1: {
-          specialComments: 0
+          specialComments: 0,
         },
-        2: true
-      }
-    }).minify(content).styles
+        2: true,
+      },
+    }).minify(content).styles;
   } else {
-    return beautify.css(content, BEAUTIFY_OPTIONS)
+    return beautify.css(content, BEAUTIFY_OPTIONS);
   }
 }
 
 function minifyJS(content) {
-  if (twelvety.env === 'production') {
+  if (twelvety.env === "production") {
     // uglify
     // Options: https://github.com/mishoo/UglifyJS
-    return uglify.minify(content).code
+    return uglify.minify(content).code;
   } else {
-    return beautify.js(content, BEAUTIFY_OPTIONS)
+    return beautify.js(content, BEAUTIFY_OPTIONS);
   }
 }
 
 function minifyHTML(content) {
-  if (twelvety.env === 'production') {
+  if (twelvety.env === "production") {
     // html-minifier
     // Options: https://github.com/kangax/html-minifier
     return htmlmin.minify(content, {
@@ -58,15 +57,15 @@ function minifyHTML(content) {
       minifyCSS,
       minifyJS,
       removeComments: true,
-      useShortDoctype: true
-    })
+      useShortDoctype: true,
+    });
   } else {
-    return beautify.html(content, BEAUTIFY_OPTIONS)
+    return beautify.html(content, BEAUTIFY_OPTIONS);
   }
 }
 
 module.exports = {
-  css:  minifyCSS,
-  js:   minifyJS,
-  html: minifyHTML
-}
+  css: minifyCSS,
+  js: minifyJS,
+  html: minifyHTML,
+};

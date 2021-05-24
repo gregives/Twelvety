@@ -4,15 +4,15 @@ module.exports = {
   // Directory structure
   dir: {
     // ⬇ Eleventy uses these
-    input: 'src',
-    output: 'dist',
-    includes: '_includes',
-    layouts: '_layouts',
-    data: '_data',
+    input: "src",
+    output: "dist",
+    includes: "_includes",
+    layouts: "_layouts",
+    data: "_data",
     // ⬇ Eleventy doesn't use these but Twelvety does
-    assets: '_assets',
-    styles: '_assets/styles',
-    images: '_assets/images'
+    assets: "_assets",
+    styles: "_assets/styles",
+    images: "_assets/images",
   },
   // Eleventy environment
   // Production or development set in package.json scripts
@@ -27,6 +27,6 @@ module.exports = {
     // Remove AVIF if builds are taking too long
     avif: 30,
     webp: 60,
-    same: 75
-  }
-}
+    same: 75,
+  },
+};

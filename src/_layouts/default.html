@@ -7,12 +7,12 @@
     {%- endif %}
 
     <!-- Some basic meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Set default meta.description in src/_data/meta.json -->
     {% if meta.description -%}
-      <meta name="description" content="{{ meta.description }}">
+      <meta name="description" content="{{ meta.description }}" />
     {%- endif %}
 
     <!-- Page styles will be moved here, see bottom of file -->
@@ -26,12 +26,12 @@
 
     <!-- CSS included in every page using this layout -->
     {% stylesheet 'scss' %}
-      @import 'main';
+      @import "main";
     {% endstylesheet %}
 
     <!-- JS included in every page using this layout -->
     {% javascript %}
-      console.log("Hello from Twelvety 👋")
+      console.log("Hello from Twelvety 👋");
     {% endjavascript %}
 
     <!-- Capture all JS included in this page -->
@@ -55,14 +55,14 @@
 
       {% if twelvety.env == 'production' -%}
         <!-- Defer non-critical CSS https://web.dev/defer-non-critical-css -->
-        <link rel="preload" href="{{ href }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+        <link rel="preload" href="{{ href }}" as="style" onload="this.onload=null;this.rel='stylesheet'" />
         <noscript>
-          <link rel="stylesheet" href="{{ href }}">
+          <link rel="stylesheet" href="{{ href }}" />
         </noscript>
         <!-- In production, critical CSS will be inserted below -->
       {%- else -%}
         <!-- In development, just include render-blocking stylesheet -->
-        <link rel="stylesheet" href="{{ href }}">
+        <link rel="stylesheet" href="{{ href }}" />
       {%- endif %}
     {% endappend %}
   </body>

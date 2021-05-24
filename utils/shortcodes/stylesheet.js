@@ -1,78 +1,84 @@
-const path = require('path')
-const sass = require('sass')
-const postcss = require('postcss')
-const postcssPresetEnv = require('postcss-preset-env')
-const autoprefixer = require('autoprefixer')
-const outdent = require('outdent')
+const path = require("path");
+const sass = require("sass");
+const postcss = require("postcss");
+const postcssPresetEnv = require("postcss-preset-env");
+const autoprefixer = require("autoprefixer");
+const outdent = require("outdent");
 
 // Twelvety options from .twelvety.js
-const twelvety = require('@12ty')
+const twelvety = require("@12ty");
 
 // Render styles using dart-sass
 // Documentation: https://github.com/sass/dart-sass#javascript-api
 function renderStyles(data) {
   return new Promise((resolve, reject) => {
-    sass.render({
-      data,
-      // Allow `@import` from files within styles directory and node modules
-      includePaths: [
-        path.join(process.cwd(), twelvety.dir.input, twelvety.dir.styles),
-        path.join(process.cwd(), 'node_modules')
-      ],
-      indentedSyntax: twelvety.indentedSass
-    }, (error, result) => {
-      if (error)
-        reject(error)
-      resolve(result.css.toString())
-    })
-  })
+    sass.render(
+      {
+        data,
+        // Allow `@import` from files within styles directory and node modules
+        includePaths: [
+          path.join(process.cwd(), twelvety.dir.input, twelvety.dir.styles),
+          path.join(process.cwd(), "node_modules"),
+        ],
+        indentedSyntax: twelvety.indentedSass,
+      },
+      (error, result) => {
+        if (error) reject(error);
+        resolve(result.css.toString());
+      }
+    );
+  });
 }
 
-module.exports = function(config) {
+module.exports = function (config) {
   // Each stylesheet is stored within an array for its given 'chunk'
-  const STYLES = {}
+  const STYLES = {};
 
   // Store each stylesheet within its chunk
   // The chunk defaults to the URL of the current page
   // Use language 'scss' for Liquid highlighting
-  config.addPairedShortcode('stylesheet', function(content, _language, chunk = this.page.url) {
-    // Make sure that the chunk exists
-    if (!STYLES.hasOwnProperty(chunk))
-      STYLES[chunk] = []
+  config.addPairedShortcode(
+    "stylesheet",
+    function (content, _language, chunk = this.page.url) {
+      // Make sure that the chunk exists
+      if (!STYLES.hasOwnProperty(chunk)) STYLES[chunk] = [];
 
-    // Remove leading spaces
-    content = outdent.string(content)
+      // Remove leading spaces
+      content = outdent.string(content);
 
-    // Add the stylesheet to the chunk, if it's not already in it
-    if (!STYLES[chunk].includes(content))
-      STYLES[chunk].push(content)
+      // Add the stylesheet to the chunk, if it's not already in it
+      if (!STYLES[chunk].includes(content)) STYLES[chunk].push(content);
 
-    return ''
-  })
+      return "";
+    }
+  );
 
   // Render the styles for the given chunk
-  config.addShortcode('styles', async function(chunk = this.page.url) {
+  config.addShortcode("styles", async function (chunk = this.page.url) {
     // If there aren't any styles, just return nothing
-    if (!STYLES.hasOwnProperty(chunk))
-      return ''
+    if (!STYLES.hasOwnProperty(chunk)) return "";
 
     // Join all the styles in the chunk
-    const joined = STYLES[chunk].join('\n')
+    const joined = STYLES[chunk].join("\n");
     // Render sass using dart-sass
-    const rendered = await renderStyles(joined)
+    const rendered = await renderStyles(joined);
     // Input path used by PostCSS
-    const from = path.resolve(process.cwd(), this.page.inputPath)
+    const from = path.resolve(process.cwd(), this.page.inputPath);
     // Use autoprefixer and postcss-preset-env for compatibility
-    return await postcss([postcssPresetEnv, autoprefixer]).process(rendered, { from })
-  })
+    return await postcss([postcssPresetEnv, autoprefixer]).process(rendered, {
+      from,
+    });
+  });
 
   // Reset all styles on re-runs
-  config.on('beforeWatch', function() {
+  config.on("beforeWatch", function () {
     for (const chunk in STYLES) {
-      delete STYLES[chunk]
+      delete STYLES[chunk];
     }
-  })
+  });
 
   // Watch the styles directory
-  config.addWatchTarget(path.join(process.cwd(), twelvety.dir.input, twelvety.dir.styles))
-}
+  config.addWatchTarget(
+    path.join(process.cwd(), twelvety.dir.input, twelvety.dir.styles)
+  );
+};
