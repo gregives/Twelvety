@@ -316,7 +316,13 @@ This is also really useful for including Markdown files into a template.
 {% endmarkdown %}
 ```
 
-Be careful of the [common pitfall of indented code blocks](https://www.11ty.dev/docs/languages/markdown/#there-are-extra-and-in-my-output) when using the `markdown` paired shortcode.
+Be careful of the [common pitfall of indented code blocks](https://www.11ty.dev/docs/languages/markdown/#there-are-extra-and-in-my-output) when using the `markdown` paired shortcode. If indented code blocks are becoming a nuisance, you can disable them in `utils/markdown.js` whilst retaining fenced code blocks.
+
+```diff
+   // Uncomment the following line to disable indented code blocks
+-  // .disable("code")
++  .disable("code")
+```
 
 ___
 
