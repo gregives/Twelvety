@@ -13,8 +13,8 @@ const formats = twelvety.imageFormats;
 const saveAsset = require("./asset"),
   { hashContent } = saveAsset;
 
-// Sizes for responsive image in intervals of 160 i.e. 160, 320, ..., 1920
-const SIZES = Array.from(new Array(12), (_, index) => (index + 1) * 160);
+// Sizes for responsive image
+const SIZES = [320, 640, 960, 1280, 1600, 1920];
 
 // File to save responsive image cache
 const CACHE_FILE = path.join(process.cwd(), ".twelvety.cache");
