@@ -1,5 +1,6 @@
 const path = require("path");
 const alias = require("module-alias");
+const critical = require("eleventy-critical-css");
 
 // Twelvety options can be found in .twelvety.js
 // Set up alias for Twelvety options
@@ -20,6 +21,14 @@ module.exports = function (config) {
   addFilters(config);
   addTransforms(config);
   addShortcodes(config);
+
+  // Extract and inline critical CSS in production
+  // Documentation: https://github.com/gregives/eleventy-critical-css
+  if (twelvety.env === "production") {
+    config.addPlugin(critical, {
+      base: twelvety.dir.output,
+    });
+  }
 
   // Deep merge when combining the Data Cascade
   // Documentation: https://www.11ty.dev/docs/data-deep-merge/
