@@ -244,7 +244,7 @@ ___
 <summary><strong><code>append</code> paired shortcode and transform</strong></summary>
 <br>
 
-Okay folks, here it is: the one _gotcha_ with Twelvety. In order for the `styles` shortcode to work, it must come after all `stylesheet` paired shortcodes, which would usually be in the `body`. However, if we want our CSS to be linked or inlined in the `head`. This is where the `append` paired shortcode and transform come in, to move the output of the `styles` shortcode back into the `head` where we want it.
+Okay folks, here it is: the one _gotcha_ with Twelvety. In order for the `styles` shortcode to work, it must come after all `stylesheet` paired shortcodes, which would usually be in the `body`. However, we want our CSS to be linked or inlined in the `head`. This is where the `append` paired shortcode and transform come in, to move the output of the `styles` shortcode back into the `head` where we want it.
 
 ```html
 <!DOCTYPE html>
@@ -304,7 +304,7 @@ Twelvety also adds a `markdown` paired shortcode which uses the markdown-it conf
 {% markdown %}
 # `markdown` paired shortcode
 
-Let's you use **Markdown** like _this_.
+Lets you use **Markdown** like _this_.
 {% endmarkdown %}
 ```
 
