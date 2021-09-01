@@ -332,7 +332,7 @@ ___
 <summary><strong><code>critical</code> transform</strong></summary>
 <br>
 
-The `critical` transform now uses [eleventy-critical-css](https://github.com/gregives/eleventy-critical-css) to extract and inline critical-path CSS on every page.
+Instead of using a transform, Twelvety now uses [eleventy-critical-css](https://github.com/gregives/eleventy-critical-css) to extract and inline critical-path CSS on every page.
 
 ___
 
