@@ -20,7 +20,7 @@
     "normalize.css": "^8.0.1"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^0.12.1",
+    "@11ty/eleventy": "^1.0.2",
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "autoprefixer": "^10.3.6",
